@@ -1,3 +1,4 @@
+import 'package:covid19/UI/components/loadingIndicator.dart';
 import 'package:covid19/UI/main_screens/covid_check/covid_check_screen.dart';
 import 'package:covid19/UI/main_screens/home/home_presenter.dart';
 import 'package:covid19/UI/main_screens/home/home_provider.dart';
@@ -13,16 +14,33 @@ class HomeScreen extends StatefulWidget {
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
+  
 
   HomeProvider provider = HomeProvider();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
   HomePagePresenter presenter = HomePagePresenter();
+  String cases;
+
   @override
   void initState() {
-    presenter.getCovidCases();
+    getCases();
     super.initState();
+  }
+
+  getCases() async {
+    final data = await presenter.getCovidCases();
+    cases = data.cases.toString();
+  }
+
+  showLoading(BuildContext context) {
+    showDialog(
+        context: context, builder: (context) => LoadingIndicator(size: 11));
+  }
+
+  stopLoading(BuildContext context) {
+    Navigator.pop(context);
   }
 
   @override
@@ -117,6 +135,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Positioned buildTotalCases(BuildContext context) {
+    final provider = Provider.of<HomeProvider>(context, listen: true);
+
     return Positioned(
       top: 10.h,
       right: 20.w,
@@ -126,7 +146,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text("6738",
+            Text(cases ?? "6738",
                 style: TextStyle(
                     fontFamily: "Plex",
                     fontWeight: FontWeight.bold,
