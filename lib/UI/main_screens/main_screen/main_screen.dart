@@ -1,4 +1,4 @@
-import 'package:covid19/constants.dart';
+import 'package:covid19/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sizer/sizer.dart';
@@ -34,14 +34,22 @@ class _MainScreenState extends State<MainScreen> {
               )),
             ),
             Positioned(
-              right: -60,
-              top: -60,
+              right: 0,
+              top: 0,
               child: Container(
-                  height: 25.h,
-                  width: 25.h,
-                  child: Image.asset(
-                    "assets/images/logo.png",
-                    fit: BoxFit.cover,
+                  height: 15.h,
+                  width: 15.h,
+                  child: Positioned(
+                    top: 0,
+                    child: CircleAvatar(
+                      maxRadius: 10,
+                      minRadius: 10,
+                      backgroundColor: Colors.white,
+                      child: Image.asset(
+                        "assets/images/logo-trial.png",
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                   )),
             ),
             SafeArea(

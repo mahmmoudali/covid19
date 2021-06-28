@@ -1,7 +1,10 @@
-import 'package:covid19/UI/main_screens/main_screen/main_screen.dart';
-import 'package:covid19/constants.dart';
+import 'package:covid19/colors.dart';
+import 'package:covid19/routes.dart';
+
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
+
+import 'UI/user/login/sign_in.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,10 +18,11 @@ class MyApp extends StatelessWidget {
       builder: (context, orientation, deviceType) => MaterialApp(
         title: 'Covid 19',
         debugShowCheckedModeBanner: false,
-        theme: ThemeData.light().copyWith(
+        theme: ThemeData(
           primaryColor: MColors.covidMain,
         ),
-        home: MainScreen(),
+        initialRoute: SignInScreen.routeName,
+        routes: Routes.routes,
       ),
     );
   }
