@@ -20,6 +20,17 @@ class _MainScreenState extends State<MainScreen> {
               height: double.infinity,
               width: double.infinity,
               decoration: BoxDecoration(color: MColors.covidMain)),
+          Positioned(
+              top: 7.h,
+              right: 21.w,
+              child: Row(
+                children: [
+                  Text("Cairo, Egypt",
+                      style: TextStyle(
+                          fontFamily: "Plex", color: MColors.covidThird)),
+                  Icon(Icons.arrow_drop_down, color: MColors.covidThird)
+                ],
+              )),
           buildTotalCases(),
           buildVirusIcon(),
           SafeArea(
@@ -46,13 +57,13 @@ class _MainScreenState extends State<MainScreen> {
                     children: [
                       Spacer(),
                       HomeItem(
-                          icon: Icon(FontAwesomeIcons.mapMarkedAlt,
-                              color: MColors.covidMain),
+                          icon: Icon(FontAwesomeIcons.mapMarkerAlt,
+                              color: MColors.covidMain, size: 4.h),
                           text: "Map"),
                       Spacer(),
                       HomeItem(
                           icon: Icon(FontAwesomeIcons.info,
-                              color: MColors.covidMain),
+                              color: MColors.covidMain, size: 4.h),
                           text: "Information"),
                       Spacer(),
                     ],
@@ -134,15 +145,18 @@ class _MainScreenState extends State<MainScreen> {
       children: [
         Spacer(),
         HomeItem(
-            icon: Icon(FontAwesomeIcons.mapMarkedAlt, color: MColors.covidMain),
+            icon: Icon(FontAwesomeIcons.mapMarkedAlt,
+                color: MColors.covidMain, size: 4.h),
             text: "Map"),
         Spacer(),
         HomeItem(
-            icon: Icon(FontAwesomeIcons.info, color: MColors.covidMain),
+            icon: Icon(FontAwesomeIcons.info,
+                color: MColors.covidMain, size: 4.h),
             text: "Information"),
         Spacer(),
         HomeItem(
-            icon: Icon(FontAwesomeIcons.mapMarkedAlt, color: MColors.covidMain),
+            icon: Icon(FontAwesomeIcons.mapMarkedAlt,
+                color: MColors.covidMain, size: 4.h),
             text: "Map"),
         Spacer()
       ],
@@ -227,8 +241,8 @@ class HomeItem extends StatelessWidget {
     return Column(
       children: [
         Container(
-          height: 12.h,
-          width: 12.h,
+          height: 10.h,
+          width: 10.h,
           padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.h),
           decoration: BoxDecoration(
             boxShadow: [
