@@ -1,6 +1,8 @@
 import 'package:covid19/UI/components/custom_suffix_icon.dart';
 import 'package:covid19/UI/components/default_button.dart';
 import 'package:covid19/UI/components/form_error.dart';
+import 'package:covid19/UI/main_screens/home/home.dart';
+import 'package:covid19/UI/main_screens/main_screen/main_screen.dart';
 import 'package:covid19/colors.dart';
 import 'package:covid19/constants.dart';
 import 'package:flutter/material.dart';
@@ -64,11 +66,11 @@ class _SignFormState extends State<SignForm> {
           SizedBox(height: 1.h),
           DefaultButton(
             press: () {
-              if (_formKey.currentState.validate()) {
-                _formKey.currentState.save();
-              }
+              // if (_formKey.currentState.validate()) {
+              //   _formKey.currentState.save();
+              // }
               // if (flage == true)
-              //   Navigator.pushNamed(context, LoginSuccessScreen.routeName);
+              Navigator.pushNamed(context, MainScreen.routeName);
             },
             text: 'Login',
           )

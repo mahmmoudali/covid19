@@ -1,12 +1,10 @@
-import 'package:covid19/UI/main_screens/home/home.dart';
-import 'package:covid19/UI/main_screens/main_screen/main_screen.dart';
+import 'package:covid19/UI/main_screens/map_screen/map_screen.dart';
+import 'package:covid19/UI/user/login/sign_in.dart';
 import 'package:covid19/colors.dart';
 import 'package:covid19/routes.dart';
 
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-
-import 'UI/user/login/sign_in.dart';
 
 void main() {
   runApp(MyApp());
@@ -23,7 +21,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primaryColor: MColors.covidMain,
         ),
-        initialRoute: MainScreen.routeName,
+        initialRoute: SignInScreen.routeName,
         routes: Routes.routes,
       ),
     );

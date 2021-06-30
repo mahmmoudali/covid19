@@ -1,3 +1,4 @@
+import 'package:covid19/UI/main_screens/map_screen/map_screen.dart';
 import 'package:covid19/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -56,10 +57,14 @@ class _MainScreenState extends State<MainScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Spacer(),
-                      HomeItem(
-                          icon: Icon(FontAwesomeIcons.mapMarkerAlt,
-                              color: MColors.covidMain, size: 4.h),
-                          text: "Map"),
+                      GestureDetector(
+                        onTap: () =>
+                            Navigator.pushNamed(context, MapScreen.routeName),
+                        child: HomeItem(
+                            icon: Icon(FontAwesomeIcons.mapMarkerAlt,
+                                color: MColors.covidMain, size: 4.h),
+                            text: "Map"),
+                      ),
                       Spacer(),
                       HomeItem(
                           icon: Icon(FontAwesomeIcons.info,
