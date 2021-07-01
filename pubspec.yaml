@@ -35,6 +35,8 @@ dependencies:
   flutter_polyline_points: ^1.0.0
   dio: ^4.0.0
   google_maps_flutter: ^2.0.6
+  percent_indicator: ^3.0.1
+  provider: ^5.0.0
   
     
   

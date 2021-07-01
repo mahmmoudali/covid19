@@ -1,3 +1,4 @@
+import 'package:covid19/UI/main_screens/covid_check/covid_check_screen.dart';
 import 'package:covid19/UI/main_screens/map_screen/map_screen.dart';
 import 'package:covid19/colors.dart';
 import 'package:flutter/material.dart';
@@ -168,45 +169,48 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  Container buildCovidCheckContainer() {
-    return Container(
-      height: 18.h,
-      width: 90.w,
-      padding: EdgeInsets.only(left: 2.w, right: 2.h, top: 2.h),
-      decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-              // color: Colors.amber,
-              color: Colors.grey[200],
-              spreadRadius: 1,
-              blurRadius: 2,
-              offset: Offset(0, 5))
-        ],
-        color: Color(0xFFF3F4F5),
-        borderRadius: BorderRadius.circular(3.h),
+  Widget buildCovidCheckContainer() {
+    return GestureDetector(
+      onTap: () => Navigator.pushNamed(context, CovidCheckScreen.routeName),
+      child: Container(
+        height: 18.h,
+        width: 90.w,
+        padding: EdgeInsets.only(left: 2.w, right: 2.h, top: 2.h),
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+                // color: Colors.amber,
+                color: Colors.grey[200],
+                spreadRadius: 1,
+                blurRadius: 2,
+                offset: Offset(0, 5))
+          ],
+          color: Color(0xFFF3F4F5),
+          borderRadius: BorderRadius.circular(3.h),
 
-        // border: Border.all()
-      ),
-      child: Row(
-        children: [
-          Image(image: AssetImage("assets/images/doctor.png")),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text("Covid Check",
-                  style: TextStyle(
-                      fontFamily: "Plex",
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16.sp)),
-              Text("Based on common\nsyndrome",
-                  style: TextStyle(fontFamily: "Plex", fontSize: 10.sp)),
-            ],
-          ),
-          Spacer(),
-          Icon(Icons.arrow_forward_ios, color: MColors.kTextColor, size: 2.h),
-          Spacer(),
-        ],
+          // border: Border.all()
+        ),
+        child: Row(
+          children: [
+            Image(image: AssetImage("assets/images/doctor.png")),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("Covid Check",
+                    style: TextStyle(
+                        fontFamily: "Plex",
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16.sp)),
+                Text("Based on common\nsyndrome",
+                    style: TextStyle(fontFamily: "Plex", fontSize: 10.sp)),
+              ],
+            ),
+            Spacer(),
+            Icon(Icons.arrow_forward_ios, color: MColors.kTextColor, size: 2.h),
+            Spacer(),
+          ],
+        ),
       ),
     );
   }
