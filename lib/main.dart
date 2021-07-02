@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primaryColor: MColors.covidMain,
         ),
-        initialRoute: EditProfileScreen.routeName,
+        initialRoute: SignInScreen.routeName,
         routes: Routes.routes,
       ),
     );
