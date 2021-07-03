@@ -1,6 +1,10 @@
+import 'package:covid19/UI/main_screens/chat_screen/chat_screen.dart';
 import 'package:covid19/UI/main_screens/covid_check/covid_check_screen.dart';
-import 'package:covid19/UI/main_screens/map_screen/map_screen.dart';
+import 'package:covid19/UI/main_screens/home/home.dart';
+import 'package:covid19/UI/more_screen/more_screen.dart';
+import 'package:covid19/UI/user/edit_profile/edit_profileScreen.dart';
 import 'package:covid19/colors.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sizer/sizer.dart';
@@ -12,94 +16,22 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  int currentIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        alignment: Alignment.center,
-        children: [
-          Container(
-              height: double.infinity,
-              width: double.infinity,
-              decoration: BoxDecoration(color: MColors.covidMain)),
-          Positioned(
-              top: 7.h,
-              right: 21.w,
-              child: Row(
-                children: [
-                  Text("Cairo, Egypt",
-                      style: TextStyle(
-                          fontFamily: "Plex", color: MColors.covidThird)),
-                  Icon(Icons.arrow_drop_down, color: MColors.covidThird)
-                ],
-              )),
-          buildTotalCases(),
-          buildVirusIcon(),
-          SafeArea(
-              child: Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              height: 70.h,
-              width: 100.w,
-              decoration: BoxDecoration(
-                  color: MColors.covidThird,
-                  borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(5.h),
-                      topLeft: Radius.circular(5.h))),
-              child: Column(
-                children: [
-                  Spacer(),
-                  buildCovidCheckContainer(),
-                  Spacer(),
-                  // SizedBox(height: 5.h),
-                  buildHomeIcons(),
-                  Spacer(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Spacer(),
-                      GestureDetector(
-                        onTap: () =>
-                            Navigator.pushNamed(context, MapScreen.routeName),
-                        child: HomeItem(
-                            icon: Icon(FontAwesomeIcons.mapMarkerAlt,
-                                color: MColors.covidMain, size: 4.h),
-                            text: "Map"),
-                      ),
-                      Spacer(),
-                      HomeItem(
-                          icon: Icon(FontAwesomeIcons.info,
-                              color: MColors.covidMain, size: 4.h),
-                          text: "Information"),
-                      Spacer(),
-                    ],
-                  ),
-                  Spacer(),
-                ],
-              ),
-            ),
-          )),
-          // Positioned(
-          //   right: 0,
-          //   top: 0,
-          //   child: Container(
-          //       height: 15.h,
-          //       width: 15.h,
-          //       child: Positioned(
-          //         top: 0,
-          //         child: CircleAvatar(
-          //           maxRadius: 10,
-          //           minRadius: 10,
-          //           backgroundColor: Colors.white,
-          //           child: Image.asset(
-          //             "assets/images/logo-trial.png",
-          //             fit: BoxFit.cover,
-          //           ),
-          //         ),
-          //       )),
-          // ),
-        ],
-      ),
+      body: Builder(builder: (context) {
+        switch (currentIndex) {
+          case 0:
+            return HomeScreen();
+          case 1:
+            return ChatScreen();
+          case 2:
+            return MoreScreen();
+          default:
+            return null;
+        }
+      }),
       bottomNavigationBar: buildBottomNavigationBar(),
     );
   }
@@ -216,9 +148,16 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   BottomNavigationBar buildBottomNavigationBar() {
+    final user = FirebaseAuth.instance.currentUser;
     return BottomNavigationBar(
       showSelectedLabels: false,
       showUnselectedLabels: false,
+      currentIndex: currentIndex,
+      onTap: (value) {
+        setState(() {
+          currentIndex = value;
+        });
+      },
       items: [
         BottomNavigationBarItem(
           icon: Icon(FontAwesomeIcons.home),
@@ -229,7 +168,24 @@ class _MainScreenState extends State<MainScreen> {
           label: "Chat",
         ),
         BottomNavigationBarItem(
-            icon: Icon(FontAwesomeIcons.userAlt), label: "Profile"),
+            icon: user.photoURL == null
+                ? Icon(FontAwesomeIcons.userAlt)
+                : SizedBox(
+                    height: 4.h,
+                    width: 4.h,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                              width: .5.w,
+                              color: currentIndex == 2
+                                  ? MColors.covidMain
+                                  : Colors.grey)),
+                      child: CircleAvatar(
+                          backgroundImage: NetworkImage(user.photoURL)),
+                    ),
+                  ),
+            label: "Profile"),
       ],
       selectedItemColor: MColors.covidMain,
     );

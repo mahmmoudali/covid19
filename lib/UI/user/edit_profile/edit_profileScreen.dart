@@ -1,17 +1,42 @@
 import 'package:covid19/UI/components/custom_suffix_icon.dart';
 import 'package:covid19/UI/components/default_button.dart';
 import 'package:covid19/UI/components/social_card.dart';
+import 'package:covid19/UI/user/edit_profile/edit_profile_presenter.dart';
+import 'package:covid19/UI/user/edit_profile/edit_profile_provider.dart';
 import 'package:covid19/colors.dart';
 import 'package:covid19/constants.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-class EditProfileScreen extends StatelessWidget {
-  final _formKey = GlobalKey<FormState>();
-  String email, password, name, age;
-
+class EditProfileScreen extends StatefulWidget {
   static String routeName = '/editProfileScreen';
+  @override
+  _EditProfileScreenState createState() => _EditProfileScreenState();
+}
+
+class _EditProfileScreenState extends State<EditProfileScreen> {
+  final _formKey = GlobalKey<FormState>();
+
+  String email, password, name, number;
+
+  final user = FirebaseAuth.instance.currentUser;
+
+  TextEditingController nameController = TextEditingController();
+  TextEditingController phoneNumController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+
+  @override
+  void initState() {
+    nameController.text = user.displayName;
+    emailController.text = user.email;
+    phoneNumController.text = user.phoneNumber;
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +48,7 @@ class EditProfileScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               buildButtonBack(context),
-              buildLogoArea(),
+              buildProfileBar(),
               Form(
                   key: _formKey,
                   child: Container(
@@ -60,9 +85,10 @@ class EditProfileScreen extends StatelessWidget {
 
   TextFormField buildAgeTextFormField() {
     return TextFormField(
-      onSaved: (newValue) => age = newValue,
+      controller: phoneNumController,
+      onSaved: (newValue) => number = newValue,
       validator: (value) {
-        if (value.isEmpty) return "You must enter your age";
+        if (value.isEmpty) return "You must enter your phone number";
       },
       onFieldSubmitted: (value) {
         _formKey.currentState.validate();
@@ -75,13 +101,14 @@ class EditProfileScreen extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 5.w),
           child: Icon(FontAwesomeIcons.calendarAlt),
         ),
-        labelText: 'Age',
+        labelText: 'Phone',
       ),
     );
   }
 
   TextFormField buildEmailTextFormField() {
     return TextFormField(
+      controller: emailController,
       onSaved: (newValue) => email = newValue,
       validator: (value) {
         if (value.isEmpty)
@@ -106,6 +133,7 @@ class EditProfileScreen extends StatelessWidget {
 
   TextFormField buildNameTextFormField() {
     return TextFormField(
+      controller: nameController,
       onSaved: (newValue) => name = newValue,
       validator: (value) {
         if (value.isEmpty) return "You must enter your name";
@@ -142,7 +170,7 @@ class EditProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget buildLogoArea() {
+  Widget buildProfileBar() {
     return Container(
       height: 25.h,
       child: Stack(
@@ -158,11 +186,11 @@ class EditProfileScreen extends StatelessWidget {
                     // provider2?.getImage(mPresenter);
                   },
                   child: CircleAvatar(
-                    radius: 25.h,
+                    radius: 50.h,
                     backgroundColor: MColors.covidMain,
-                    backgroundImage: AssetImage(
-                      "assets/images/pp.jpg",
-                    ),
+                    backgroundImage: user.photoURL == null
+                        ? AssetImage("assets/images/background.png")
+                        : NetworkImage(user.photoURL),
                   ),
                 ),
               ),
@@ -195,18 +223,14 @@ class EditProfileScreen extends StatelessWidget {
     );
   }
 
-  Positioned buildButtonBack(BuildContext context) {
-    return Positioned(
-      top: 6.h,
-      left: 0,
-      child: GestureDetector(
-        onTap: () => Navigator.pop(context),
-        child: Container(
-          padding: EdgeInsets.all(1.h),
-          width: 5.h,
-          height: 5.h,
-          child: Icon(Icons.arrow_back_ios, color: MColors.covidMain),
-        ),
+  Widget buildButtonBack(BuildContext context) {
+    return GestureDetector(
+      onTap: () => Navigator.pop(context),
+      child: Container(
+        padding: EdgeInsets.all(1.h),
+        width: 5.h,
+        height: 5.h,
+        child: Icon(Icons.arrow_back_ios, color: MColors.covidMain),
       ),
     );
   }

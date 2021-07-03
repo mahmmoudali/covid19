@@ -2,6 +2,7 @@ import 'package:covid19/UI/main_screens/covid_check/covid_check_screen.dart';
 import 'package:covid19/UI/main_screens/home/home.dart';
 import 'package:covid19/UI/main_screens/main_screen/main_screen.dart';
 import 'package:covid19/UI/main_screens/map_screen/map_screen.dart';
+import 'package:covid19/UI/more_screen/more_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'UI/user/edit_profile/edit_profileScreen.dart';
 import 'UI/user/login/sign_in.dart';
@@ -16,5 +17,6 @@ class Routes {
     MapScreen.routeName: (context) => MapScreen(),
     CovidCheckScreen.routeName: (context) => CovidCheckScreen(),
     EditProfileScreen.routeName: (context) => EditProfileScreen(),
+    MoreScreen.routeName: (context) => MoreScreen(),
   };
 }
