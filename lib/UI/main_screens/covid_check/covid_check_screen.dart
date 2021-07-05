@@ -1,5 +1,7 @@
 import 'package:covid19/UI/components/default_button.dart';
+import 'package:covid19/UI/components/loadingIndicator.dart';
 import 'package:covid19/UI/main_screens/covid_check/covid_chech_provider.dart';
+import 'package:covid19/UI/main_screens/covid_check/covid_check_result/covid_check_result.dart';
 import 'package:covid19/UI/main_screens/covid_check/symptom.dart';
 import 'package:covid19/UI/main_screens/map_screen/map_screen.dart';
 import 'package:covid19/colors.dart';
@@ -16,61 +18,52 @@ class CovidCheckScreen extends StatefulWidget {
 }
 
 class _CovidCheckScreenState extends State<CovidCheckScreen> {
-  Symptom fever;
-  Symptom shortnessOfBreathing;
-  Symptom dryCough;
-  Symptom fatigue;
-  double progress;
-  @override
-  void initState() {
-    fever = Symptom(name: "Fever");
-    shortnessOfBreathing = Symptom(name: "Shortness of breathing");
-    dryCough = Symptom(name: "Dry cough");
-    fatigue = Symptom(name: "Fatigue");
-    progress = 0.0;
+  // double progress;
 
-    super.initState();
-  }
-
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        alignment: Alignment.center,
-        children: [
-          Container(
-              height: double.infinity,
-              width: double.infinity,
-              decoration: BoxDecoration(color: MColors.covidMain)),
-          buildButtonBack(context),
-          buildSymptomCheck(),
-          buildProgressBar(),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              height: 70.h,
-              width: 100.w,
-              padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 5.w),
-              decoration: BoxDecoration(
-                  color: MColors.covidThird,
-                  borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(5.h),
-                      topLeft: Radius.circular(5.h))),
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  Column(
-                    children: [
-                      buildMainTitleText(),
-                      buildSymptoms(),
-                    ],
-                  ),
-                  buildNextButton()
-                ],
+  Widget build(BuildContext _) {
+    return ChangeNotifierProvider(
+      create: (_) => CovidCheckProvider(),
+      builder: (context, child) => Scaffold(
+        key: _scaffoldKey,
+        body: Stack(
+          alignment: Alignment.center,
+          children: [
+            Container(
+                height: double.infinity,
+                width: double.infinity,
+                decoration: BoxDecoration(color: MColors.covidMain)),
+            buildButtonBack(context),
+            buildSymptomCheck(),
+            buildProgressBar(context),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                height: 70.h,
+                width: 100.w,
+                padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 5.w),
+                decoration: BoxDecoration(
+                    color: MColors.covidThird,
+                    borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(5.h),
+                        topLeft: Radius.circular(5.h))),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Column(
+                      children: [
+                        buildMainTitleText(),
+                        buildSymptoms(context),
+                      ],
+                    ),
+                    buildNextButton(context)
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -91,35 +84,57 @@ class _CovidCheckScreenState extends State<CovidCheckScreen> {
     );
   }
 
-  Positioned buildProgressBar() {
+  Positioned buildProgressBar(BuildContext context) {
+    final provider = Provider.of<CovidCheckProvider>(context, listen: false);
     return Positioned(
         top: 22.h,
         child: LinearPercentIndicator(
             width: 75.w,
             lineHeight: 14.0,
-            percent: progress,
+            percent: provider.progress,
             backgroundColor: MColors.covidThird.withOpacity(.5),
-            progressColor: progress > 0.75
+            progressColor: provider.progress > 0.75
                 ? Colors.red
-                : progress > .50
+                : provider.progress > .50
                     ? Colors.amber
-                    : progress > .25
+                    : provider.progress > .25
                         ? Colors.white
                         : Colors.green));
   }
 
-  Positioned buildNextButton() {
+  Positioned buildNextButton(BuildContext context) {
     return Positioned(
-      bottom: 0,
+      bottom: 1.h,
       right: 5.w,
       child: SizedBox(
         width: 40.w,
         child: DefaultButton(
           text: "Next",
-          press: () {},
+          press: () {
+            final provider =
+                Provider.of<CovidCheckProvider>(context, listen: false);
+            provider.progress == 0.0
+                ? _scaffoldKey.currentState.showSnackBar(SnackBar(
+                    content: Text("Please Select one of your Symptoms!"),
+                    backgroundColor: Theme.of(context).errorColor,
+                  ))
+                : showLoading(context);
+            // Navigator.pushNamed(
+            //     context, CovidCheckResultScreen.routeName));
+          },
         ),
       ),
     );
+  }
+
+  Future showLoading(BuildContext context) async {
+    showDialog(
+      context: context,
+      builder: (context) => LoadingIndicator(size: 11),
+    );
+    await Future.delayed(Duration(seconds: 2))
+        .then((value) => Navigator.pop(context));
+    Navigator.pushNamed(context, CovidCheckResultScreen.routeName);
   }
 
   Container buildMainTitleText() {
@@ -166,7 +181,9 @@ class _CovidCheckScreenState extends State<CovidCheckScreen> {
     );
   }
 
-  Widget buildSymptoms() {
+  Widget buildSymptoms(BuildContext context) {
+    final provider = Provider.of<CovidCheckProvider>(context, listen: false);
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 7.w),
       child: Column(
@@ -175,18 +192,19 @@ class _CovidCheckScreenState extends State<CovidCheckScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SymptomItem(symptom: fever),
+              SymptomItem(symptom: provider.fever, context: context),
               Spacer(),
-              SymptomItem(symptom: shortnessOfBreathing),
+              SymptomItem(
+                  symptom: provider.shortnessOfBreathing, context: context),
               Spacer(),
             ],
           ),
           SizedBox(height: 5.h),
           Row(
             children: [
-              SymptomItem(symptom: dryCough),
+              SymptomItem(symptom: provider.dryCough, context: context),
               Spacer(),
-              SymptomItem(symptom: fatigue),
+              SymptomItem(symptom: provider.fatigue, context: context),
               Spacer(),
             ],
           ),
@@ -195,20 +213,27 @@ class _CovidCheckScreenState extends State<CovidCheckScreen> {
     );
   }
 
-  checkSymptom(List<Symptom> symptoms) {
-    progress = 0.0;
-    symptoms.forEach((symptom) {
-      if (symptom.isSelected == true) progress = progress + 0.25;
-    });
+  checkSymptom(List<Symptom> symptoms, BuildContext context) {
+    final provider = Provider.of<CovidCheckProvider>(context, listen: false);
+    provider.checkSymptom(symptoms);
+    // progress = 0.0;
+    // symptoms.forEach((symptom) {
+    //   if (symptom.isSelected == true) progress = progress + 0.25;
+    // });
   }
 
-  Widget SymptomItem({@required Symptom symptom}) {
+  Widget SymptomItem({@required Symptom symptom, BuildContext context}) {
+    final provider = Provider.of<CovidCheckProvider>(context, listen: true);
+
     return GestureDetector(
       onTap: () {
-        setState(() {
-          symptom.isSelected = !symptom.isSelected;
-          checkSymptom([fever, shortnessOfBreathing, fatigue, dryCough]);
-        });
+        symptom.isSelected = !symptom.isSelected;
+        provider.checkSymptom([
+          provider.fever,
+          provider.shortnessOfBreathing,
+          provider.fatigue,
+          provider.dryCough
+        ]);
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.5.h),

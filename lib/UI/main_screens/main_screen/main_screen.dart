@@ -1,12 +1,14 @@
 import 'package:covid19/UI/main_screens/chat_screen/chat_screen.dart';
 import 'package:covid19/UI/main_screens/covid_check/covid_check_screen.dart';
 import 'package:covid19/UI/main_screens/home/home.dart';
+import 'package:covid19/UI/main_screens/main_screen/main_screen_provider.dart';
 import 'package:covid19/UI/more_screen/more_screen.dart';
 import 'package:covid19/UI/user/edit_profile/edit_profileScreen.dart';
 import 'package:covid19/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 class MainScreen extends StatefulWidget {
@@ -16,23 +18,27 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int currentIndex = 0;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Builder(builder: (context) {
-        switch (currentIndex) {
-          case 0:
-            return HomeScreen();
-          case 1:
-            return ChatScreen();
-          case 2:
-            return MoreScreen();
-          default:
-            return null;
-        }
-      }),
-      bottomNavigationBar: buildBottomNavigationBar(),
+    return ChangeNotifierProvider<MainScreenProvider>(
+      create: (_) => MainScreenProvider(),
+      builder: (context, child) => Scaffold(
+        body: Builder(builder: (context) {
+          final provider =
+              Provider.of<MainScreenProvider>(context, listen: false);
+          switch (provider.currentIndex) {
+            case 0:
+              return HomeScreen();
+            case 1:
+              return ChatScreen();
+            case 2:
+              return MoreScreen();
+            default:
+              return null;
+          }
+        }),
+        bottomNavigationBar: buildBottomNavigationBar(context),
+      ),
     );
   }
 
@@ -147,15 +153,17 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  BottomNavigationBar buildBottomNavigationBar() {
+  BottomNavigationBar buildBottomNavigationBar(BuildContext context) {
+    final provider = Provider.of<MainScreenProvider>(context, listen: true);
+
     final user = FirebaseAuth.instance.currentUser;
     return BottomNavigationBar(
       showSelectedLabels: false,
       showUnselectedLabels: false,
-      currentIndex: currentIndex,
+      currentIndex: provider.currentIndex,
       onTap: (value) {
         setState(() {
-          currentIndex = value;
+          provider.currentIndex = value;
         });
       },
       items: [
@@ -178,7 +186,7 @@ class _MainScreenState extends State<MainScreen> {
                           shape: BoxShape.circle,
                           border: Border.all(
                               width: .5.w,
-                              color: currentIndex == 2
+                              color: provider.currentIndex == 2
                                   ? MColors.covidMain
                                   : Colors.grey)),
                       child: CircleAvatar(

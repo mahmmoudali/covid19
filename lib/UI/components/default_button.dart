@@ -1,17 +1,6 @@
 import 'package:covid19/colors.dart';
-import 'package:flutter/material.dart'
-    show
-        BorderRadius,
-        BuildContext,
-        Colors,
-        FlatButton,
-        Key,
-        RoundedRectangleBorder,
-        SizedBox,
-        StatelessWidget,
-        Text,
-        TextStyle,
-        Widget;
+import 'package:flutter/material.dart';
+
 import 'package:sizer/sizer.dart';
 
 class DefaultButton extends StatelessWidget {
@@ -19,9 +8,13 @@ class DefaultButton extends StatelessWidget {
     Key key,
     this.press,
     this.text,
+    this.color,
+    this.textColor,
   }) : super(key: key);
   final Function press;
   final String text;
+  final Color color;
+  final Color textColor;
 
   @override
   Widget build(BuildContext context) {
@@ -31,11 +24,15 @@ class DefaultButton extends StatelessWidget {
       child: FlatButton(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          color: MColors.covidMain,
+          color: color ?? MColors.covidMain,
           onPressed: press,
           child: Text(
             '$text',
-            style: TextStyle(fontSize: 5.w, color: Colors.white),
+            style: TextStyle(
+                fontFamily: "Plex",
+                fontWeight: FontWeight.bold,
+                fontSize: 16.sp,
+                color: textColor ?? Colors.white),
           )),
     );
   }
