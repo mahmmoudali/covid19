@@ -2,7 +2,7 @@ import 'package:covid19/UI/main_screens/chat_screen/chat_screen.dart';
 import 'package:covid19/UI/main_screens/covid_check/covid_check_screen.dart';
 import 'package:covid19/UI/main_screens/home/home.dart';
 import 'package:covid19/UI/main_screens/main_screen/main_screen_provider.dart';
-import 'package:covid19/UI/more_screen/more_screen.dart';
+import 'package:covid19/UI/main_screens/more_screen/more_screen.dart';
 import 'package:covid19/UI/user/edit_profile/edit_profileScreen.dart';
 import 'package:covid19/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';

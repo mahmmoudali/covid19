@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:covid19/UI/components/default_button.dart';
 import 'package:covid19/UI/components/loadingIndicator.dart';
 import 'package:covid19/UI/main_screens/map_screen/city_data/city_data_presenter.dart';
@@ -31,25 +33,6 @@ class _MapScreenState extends State<MapScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      // appBar: AppBar(
-      // //   title: Text("Map"),
-      // //   actions: [
-      // //     if (_origin != null)
-      // //       TextButton(
-      // //           child: Text("ORIGIN"),
-      // //           onPressed: () => _googleMapController.animateCamera(
-      // //               CameraUpdate.newCameraPosition(CameraPosition(
-      // //                   target: _origin.position, zoom: 14.5, tilt: 50.0)))),
-      // //     if (_destination != null)
-      // //       TextButton(
-      // //           child: Text("DESTINATION"),
-      // //           onPressed: () => _googleMapController.animateCamera(
-      // //               CameraUpdate.newCameraPosition(CameraPosition(
-      // //                   target: _destination.position,
-      // //                   zoom: 14.5,
-      // //                   tilt: 50.0)))),
-      // //   ],
-      // // ),
       body: Stack(
         alignment: Alignment.center,
         children: [
@@ -64,24 +47,28 @@ class _MapScreenState extends State<MapScreen> {
             },
             onLongPress: _addMarker,
           ),
-          Positioned(
-            top: 4.h,
-            child: Container(
-              height: 5.h,
-              width: 100.w,
-              decoration: BoxDecoration(
-                // borderRadius: BorderRadius.circular(3.h),
-                color: Color(0xFFF18E92),
-              ),
-              child: Center(
-                child: Text(
-                  "Hold on any place to show COVID-19 Statistics ",
-                  style: TextStyle(
-                      fontFamily: "Plex",
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
+          SafeArea(
+            child: Column(
+              children: [
+                Container(
+                  height: 7.h,
+                  width: 100.w,
+                  decoration: BoxDecoration(
+                    // borderRadius: BorderRadius.circular(3.h),
+                    color: Color(0xFFF18E92),
+                  ),
+                  child: Center(
+                    child: Text(
+                      "Hold on any place to show COVID-19 Statistics ",
+                      style: TextStyle(
+                          fontFamily: "Plex",
+                          fontWeight: FontWeight.bold,
+                          fontSize: 13.sp,
+                          color: Colors.white),
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
           )
           // Container(
@@ -174,6 +161,7 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   Future showLocationInformation(BuildContext context, cityName) {
+    Random random = new Random();
     return showMaterialModalBottomSheet(
       context: context,
       builder: (context) => SingleChildScrollView(
@@ -288,7 +276,7 @@ class _MapScreenState extends State<MapScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "2500",
+                          (random.nextInt(1000) + 500).toString(),
                           style: TextStyle(
                               fontFamily: "Plex",
                               fontWeight: FontWeight.bold,
@@ -297,7 +285,7 @@ class _MapScreenState extends State<MapScreen> {
                         ),
                         SizedBox(height: 3.h),
                         Text(
-                          "100",
+                          random.nextInt(100).toString(),
                           style: TextStyle(
                               fontFamily: "Plex",
                               fontWeight: FontWeight.bold,
@@ -306,7 +294,7 @@ class _MapScreenState extends State<MapScreen> {
                         ),
                         SizedBox(height: 3.h),
                         Text(
-                          "1200",
+                          (random.nextInt(1000) + 100).toString(),
                           style: TextStyle(
                               fontFamily: "Plex",
                               fontWeight: FontWeight.bold,

@@ -1,5 +1,4 @@
 import 'package:covid19/UI/main_screens/home/home.dart';
-import 'package:covid19/UI/main_screens/home/home_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 
