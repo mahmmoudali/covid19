@@ -1,12 +1,15 @@
 import 'package:covid19/UI/components/loadingIndicator.dart';
 import 'package:covid19/UI/main_screens/covid_check/covid_check_screen.dart';
 import 'package:covid19/UI/main_screens/home/home_presenter.dart';
-import 'package:covid19/UI/main_screens/home/home_provider.dart';
+import 'package:covid19/UI/main_screens/home/model/CovidCasesResponse.dart';
 import 'package:covid19/UI/main_screens/map_screen/map_screen.dart';
 import 'package:covid19/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:sizer/sizer.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -14,9 +17,6 @@ class HomeScreen extends StatefulWidget {
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
-  
-
-  HomeProvider provider = HomeProvider();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
@@ -24,101 +24,93 @@ class _HomeScreenState extends State<HomeScreen> {
   String cases;
 
   @override
-  void initState() {
-    getCases();
-    super.initState();
-  }
-
-  getCases() async {
-    final data = await presenter.getCovidCases();
-    cases = data.cases.toString();
-  }
-
-  showLoading(BuildContext context) {
-    showDialog(
-        context: context, builder: (context) => LoadingIndicator(size: 11));
-  }
-
-  stopLoading(BuildContext context) {
-    Navigator.pop(context);
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-        create: (context) => HomeProvider(),
-        builder: (context, child) {
-          return RefreshIndicator(
-            onRefresh: () => presenter.getCovidCases(),
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                Container(
-                    height: double.infinity,
-                    width: double.infinity,
-                    decoration: BoxDecoration(color: MColors.covidMain)),
-                Positioned(
-                    top: 7.h,
-                    right: 21.w,
-                    child: Row(
-                      children: [
-                        Text("Cairo, Egypt",
-                            style: TextStyle(
-                                fontFamily: "Plex", color: MColors.covidThird)),
-                        Icon(Icons.arrow_drop_down, color: MColors.covidThird)
-                      ],
-                    )),
-                buildTotalCases(context),
-                buildVirusIcon(),
-                SafeArea(
-                    child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    height: 70.h,
-                    width: 100.w,
-                    decoration: BoxDecoration(
-                        color: MColors.covidThird,
-                        borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(5.h),
-                            topLeft: Radius.circular(5.h))),
-                    child: Column(
-                      children: [
-                        Spacer(),
-                        buildCovidCheckContainer(),
-                        Spacer(),
-                        // SizedBox(height: 5.h),
-                        buildHomeIcons(),
-                        //
-                        Spacer(),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Spacer(),
-                            GestureDetector(
-                              onTap: () => Navigator.pushNamed(
-                                  context, MapScreen.routeName),
-                              child: HomeItem(
-                                  icon: Icon(FontAwesomeIcons.mapMarkerAlt,
-                                      color: MColors.covidMain, size: 4.h),
-                                  text: "Map"),
-                            ),
-                            Spacer(),
-                            HomeItem(
-                                icon: Icon(FontAwesomeIcons.info,
-                                    color: MColors.covidMain, size: 4.h),
-                                text: "Information"),
-                            Spacer(),
-                          ],
-                        ),
-                        Spacer(),
-                      ],
-                    ),
+    return RefreshIndicator(
+      onRefresh: () => presenter.getCovidCases(),
+      displacement: 60,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          ListView(),
+          Container(
+              height: double.infinity,
+              width: double.infinity,
+              decoration: BoxDecoration(color: MColors.covidMain)),
+          buildCairoEgypt(),
+          buildTotalCases(),
+          buildVirusIcon(),
+          SafeArea(
+              child: Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              height: 70.h,
+              width: 100.w,
+              decoration: BoxDecoration(
+                  color: MColors.covidThird,
+                  borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(5.h),
+                      topLeft: Radius.circular(5.h))),
+              child: Column(
+                children: [
+                  Spacer(),
+                  buildCovidCheckContainer(),
+                  Spacer(),
+                  buildMapContainer(),
+                  Spacer(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Spacer(),
+                      buildProtectionItem(),
+                      Spacer(),
+                      buildInformationItem(),
+                      Spacer(),
+                    ],
                   ),
-                )),
-              ],
+                  Spacer(),
+                ],
+              ),
             ),
-          );
-        });
+          )),
+        ],
+      ),
+    );
+  }
+
+  GestureDetector buildInformationItem() {
+    return GestureDetector(
+      onTap: () {},
+      child: HomeItem(
+          icon:
+              Icon(FontAwesomeIcons.info, color: MColors.covidMain, size: 4.h),
+          text: "Information"),
+    );
+  }
+
+  GestureDetector buildProtectionItem() {
+    return GestureDetector(
+      onTap: () {},
+      child: HomeItem(
+          icon: SvgPicture.asset(
+            "assets/icons/protection.svg",
+            color: MColors.covidMain,
+          ),
+          text: "Protection"),
+    );
+  }
+
+  Positioned buildCairoEgypt() {
+    return Positioned(
+        top: 7.h,
+        right: 15.w,
+        child: Row(
+          children: [
+            Text("Cairo, Egypt",
+                style:
+                    TextStyle(fontFamily: "Plex", color: MColors.covidThird)),
+            Icon(Icons.arrow_drop_down, color: MColors.covidThird)
+          ],
+        ));
   }
 
   Positioned buildVirusIcon() {
@@ -134,34 +126,57 @@ class _HomeScreenState extends State<HomeScreen> {
         ));
   }
 
-  Positioned buildTotalCases(BuildContext context) {
-    final provider = Provider.of<HomeProvider>(context, listen: true);
-
-    return Positioned(
-      top: 10.h,
-      right: 20.w,
-      child: Container(
-        height: 10.h,
-        width: 30.w,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(cases ?? "6738",
-                style: TextStyle(
-                    fontFamily: "Plex",
-                    fontWeight: FontWeight.bold,
-                    color: MColors.covidThird,
-                    fontSize: 30.sp)),
-            Text("Total Cases",
-                style: TextStyle(
-                    fontFamily: "Plex",
-                    // fontWeight: FontWeight.bold,
-                    color: MColors.covidThird,
-                    fontSize: 12.sp)),
-          ],
-        ),
-      ),
-    );
+  Widget buildTotalCases() {
+    return FutureBuilder(
+        future: presenter.getCovidCases(),
+        builder:
+            (BuildContext context, AsyncSnapshot<CovidCasesResponse> snapshot) {
+          return Positioned(
+            top: 10.h,
+            right: 10.w,
+            child: Container(
+              height: 10.h,
+              width: 40.w,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  snapshot.hasData
+                      ? Container(
+                          height: 6.h,
+                          child: Text(snapshot.data.cases.toString(),
+                              style: TextStyle(
+                                  fontFamily: "Plex",
+                                  fontWeight: FontWeight.bold,
+                                  color: MColors.covidThird,
+                                  fontSize: 30.sp)),
+                        )
+                      : Container(
+                          height: 6.h,
+                          width: 6.h,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: .8.h, horizontal: .8.h),
+                            child: SpinKitFadingCube(
+                              itemBuilder: (context, int index) {
+                                return DecoratedBox(
+                                  decoration:
+                                      BoxDecoration(color: Colors.white),
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                  Text("Total Cases",
+                      style: TextStyle(
+                          fontFamily: "Plex",
+                          // fontWeight: FontWeight.bold,
+                          color: MColors.covidThird,
+                          fontSize: 12.sp)),
+                ],
+              ),
+            ),
+          );
+        });
   }
 
   Row buildHomeIcons() {
@@ -226,8 +241,60 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
             Spacer(),
-            Icon(Icons.arrow_forward_ios, color: MColors.kTextColor, size: 2.h),
+            // Icon(Icons.arrow_forward_ios, color: MColors.kTextColor, size: 2.h),
+            // Spacer(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildMapContainer() {
+    return GestureDetector(
+      onTap: () => Navigator.pushNamed(context, MapScreen.routeName),
+      child: Container(
+        height: 15.h,
+        width: 90.w,
+        padding: EdgeInsets.only(left: 2.w, right: 2.h, top: .5.h),
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+                // color: Colors.amber,
+                color: Colors.grey[200],
+                spreadRadius: 1,
+                blurRadius: 2,
+                offset: Offset(0, 5))
+          ],
+          color: Color(0xFFF3F4F5),
+          borderRadius: BorderRadius.circular(3.h),
+
+          // border: Border.all()
+        ),
+        child: Row(
+          children: [
+            Container(
+                width: 15.h,
+                height: 15.h,
+                padding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 2.h),
+                child: SvgPicture.asset(
+                  "assets/icons/map.svg",
+                )),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("Where to go?",
+                    style: TextStyle(
+                        fontFamily: "Plex",
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16.sp)),
+                Text("Check if your destination \nhas COVID-19 danger",
+                    style: TextStyle(fontFamily: "Plex", fontSize: 10.sp)),
+              ],
+            ),
             Spacer(),
+            // Icon(Icons.arrow_forward_ios, color: MColors.kTextColor, size: 2.h),
+            // Spacer(),
           ],
         ),
       ),
