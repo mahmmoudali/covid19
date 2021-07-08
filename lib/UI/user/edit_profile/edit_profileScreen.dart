@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:covid19/UI/components/custom_suffix_icon.dart';
 import 'package:covid19/UI/components/default_button.dart';
+import 'package:covid19/UI/components/loadingIndicator.dart';
 import 'package:covid19/UI/components/social_card.dart';
 import 'package:covid19/UI/user/edit_profile/edit_profile_presenter.dart';
 import 'package:covid19/UI/user/edit_profile/edit_profile_provider.dart';
 import 'package:covid19/colors.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:covid19/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +31,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneNumController = TextEditingController();
   TextEditingController emailController = TextEditingController();
+  final ImagePicker picker = ImagePicker();
+  PickedFile pickedFile;
 
   @override
   void initState() {
@@ -170,6 +176,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 
+  Future showLoading(context) {
+    return showDialog(
+      context: context,
+      builder: (context) => LoadingIndicator(size: 11),
+    );
+  }
+
   Widget buildProfileBar() {
     return Container(
       height: 25.h,
@@ -182,15 +195,25 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               child: Container(
                 width: 40.w,
                 child: GestureDetector(
-                  onTap: () {
-                    // provider2?.getImage(mPresenter);
+                  onTap: () async {
+                    pickedFile = await picker.getImage(
+                        source: ImageSource.gallery, imageQuality: 50);
+                    showLoading(context);
+                    await Future.delayed(Duration(seconds: 1));
+                    Navigator.pop(context);
+                    setState(() {});
                   },
                   child: CircleAvatar(
                     radius: 50.h,
                     backgroundColor: MColors.covidMain,
-                    backgroundImage: user.photoURL == null
-                        ? AssetImage("assets/images/background.png")
-                        : NetworkImage(user.photoURL),
+                    child: pickedFile == null
+                        ? Image.asset("assets/images/background.png")
+                        : Image.file(
+                            File(pickedFile.path),
+                            width: 20.h,
+                            height: 20.h,
+                            fit: BoxFit.fitHeight,
+                          ),
                   ),
                 ),
               ),
