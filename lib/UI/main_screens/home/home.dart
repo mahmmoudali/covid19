@@ -1,4 +1,3 @@
-import 'package:covid19/UI/components/loadingIndicator.dart';
 import 'package:covid19/UI/main_screens/covid_check/covid_check_screen.dart';
 import 'package:covid19/UI/main_screens/home/home_presenter.dart';
 import 'package:covid19/UI/main_screens/home/model/CovidCasesResponse.dart';
@@ -8,8 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:sizer/sizer.dart';
 
 class HomeScreen extends StatefulWidget {
