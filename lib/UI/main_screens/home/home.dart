@@ -1,6 +1,7 @@
 import 'package:covid19/UI/main_screens/covid_check/covid_check_screen.dart';
 import 'package:covid19/UI/main_screens/home/home_presenter.dart';
 import 'package:covid19/UI/main_screens/home/model/CovidCasesResponse.dart';
+import 'package:covid19/UI/main_screens/info_screen/info_screen.dart';
 import 'package:covid19/UI/main_screens/map_screen/map_screen.dart';
 import 'package:covid19/colors.dart';
 import 'package:flutter/material.dart';
@@ -76,7 +77,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   GestureDetector buildInformationItem() {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Navigator.pushNamed(context, InfoScreen.routeName);
+      },
       child: HomeItem(
           icon:
               Icon(FontAwesomeIcons.info, color: MColors.covidMain, size: 4.h),
@@ -86,7 +89,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   GestureDetector buildProtectionItem() {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Navigator.pushNamed(context, InfoScreen.routeName);
+      },
       child: HomeItem(
           icon: SvgPicture.asset(
             "assets/icons/protection.svg",

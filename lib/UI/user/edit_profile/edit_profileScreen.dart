@@ -4,15 +4,12 @@ import 'package:covid19/UI/components/custom_suffix_icon.dart';
 import 'package:covid19/UI/components/default_button.dart';
 import 'package:covid19/UI/components/loadingIndicator.dart';
 import 'package:covid19/UI/components/social_card.dart';
-import 'package:covid19/UI/user/edit_profile/edit_profile_presenter.dart';
-import 'package:covid19/UI/user/edit_profile/edit_profile_provider.dart';
 import 'package:covid19/colors.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:covid19/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 class EditProfileScreen extends StatefulWidget {
@@ -195,25 +192,20 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               child: Container(
                 width: 40.w,
                 child: GestureDetector(
-                  onTap: () async {
-                    pickedFile = await picker.getImage(
-                        source: ImageSource.gallery, imageQuality: 50);
-                    showLoading(context);
-                    await Future.delayed(Duration(seconds: 1));
-                    Navigator.pop(context);
-                    setState(() {});
+                  onTap: () {
+                    // pickedFile = await picker.getImage(
+                    //     source: ImageSource.gallery, imageQuality: 50);
+                    // showLoading(context);
+                    // await Future.delayed(Duration(seconds: 1));
+                    // Navigator.pop(context);
+                    // setState(() {});
                   },
                   child: CircleAvatar(
                     radius: 50.h,
                     backgroundColor: MColors.covidMain,
-                    child: pickedFile == null
-                        ? Image.asset("assets/images/background.png")
-                        : Image.file(
-                            File(pickedFile.path),
-                            width: 20.h,
-                            height: 20.h,
-                            fit: BoxFit.fitHeight,
-                          ),
+                    backgroundImage: user == null
+                        ? NetworkImage(user.photoURL)
+                        : Icon(FontAwesomeIcons.user),
                   ),
                 ),
               ),

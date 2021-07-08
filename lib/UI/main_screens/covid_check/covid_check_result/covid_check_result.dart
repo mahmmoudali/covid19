@@ -23,51 +23,56 @@ class _CovidCheckResultScreenState extends State<CovidCheckResultScreen> {
     super.initState();
   }
 
+  double progress = 0.0;
   @override
   Widget build(BuildContext _) {
+    progress = ModalRoute.of(context).settings.arguments;
     return ChangeNotifierProvider(
-      create: (_) => CovidCheckProvider(),
-      builder: (context, child) => Scaffold(
-          appBar: buildAppBar(context),
-          body: Padding(
-            padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 7.w),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Align(
-                  alignment: Alignment.center,
-                  child: Container(
-                      child: Icon(
-                    FontAwesomeIcons.shieldAlt,
-                    color: MColors.covidMain,
-                    size: 15.h,
-                  )),
+        create: (_) => CovidCheckProvider(),
+        builder: (context, child) {
+          return Scaffold(
+              appBar: buildAppBar(context),
+              body: Padding(
+                padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 7.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Align(
+                      alignment: Alignment.center,
+                      child: Container(
+                          child: Icon(
+                        FontAwesomeIcons.shieldAlt,
+                        color: progress < .5
+                            ? MColors.covidMain
+                            : Colors.redAccent,
+                        size: 15.h,
+                      )),
+                    ),
+                    SizedBox(height: 5.h),
+                    buildCheckResult(context),
+                    SizedBox(height: 5.h),
+                    buildLearnWhatToDo(),
+                    SizedBox(height: 1.h),
+                    // InstructionItem(
+                    //   text: "COVID-19: Keeping Safe During\nthe Pandemic",
+                    // ),
+                    // InstructionItem(
+                    //   text: "Three Ways You Can Help During\nthe COVID-19 Pandemic",
+                    // ),
+                    Expanded(
+                      // height: 45.h,
+                      child: ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          itemCount: 3,
+                          itemBuilder: (context, index) => InstructionItem(
+                                text:
+                                    "Three Ways You Can Help During\nthe COVID-19 Pandemic",
+                              )),
+                    ),
+                  ],
                 ),
-                SizedBox(height: 5.h),
-                buildCheckResult(),
-                SizedBox(height: 5.h),
-                buildLearnWhatToDo(),
-                SizedBox(height: 1.h),
-                // InstructionItem(
-                //   text: "COVID-19: Keeping Safe During\nthe Pandemic",
-                // ),
-                // InstructionItem(
-                //   text: "Three Ways You Can Help During\nthe COVID-19 Pandemic",
-                // ),
-                Expanded(
-                  // height: 45.h,
-                  child: ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      itemCount: 10,
-                      itemBuilder: (context, index) => InstructionItem(
-                            text:
-                                "Three Ways You Can Help During\nthe COVID-19 Pandemic",
-                          )),
-                ),
-              ],
-            ),
-          )),
-    );
+              ));
+        });
   }
 
   AppBar buildAppBar(BuildContext context) {
@@ -84,13 +89,15 @@ class _CovidCheckResultScreenState extends State<CovidCheckResultScreen> {
         leading: buildButtonBack(context));
   }
 
-  Widget buildCheckResult() {
+  Widget buildCheckResult(BuildContext context) {
     return Align(
       alignment: Alignment.center,
       child: Container(
         // width: 70.w,
         child: Text(
-            "The app has not found any potentially dangerous contacts\nin th last 14 days",
+            progress < .5
+                ? "The app has not found any potentially dangerous contacts\nin th last 14 days"
+                : "The app has found dangerous contactsin the last 14 days",
             textAlign: TextAlign.center,
             style: TextStyle(
                 fontFamily: "Plex",

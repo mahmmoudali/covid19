@@ -148,7 +148,7 @@ class MoreScreen extends StatelessWidget {
                 ),
                 Container(
                   width: 50.w,
-                  margin: EdgeInsets.all(3.w),
+                  margin: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.h),
                   padding:
                       EdgeInsets.symmetric(horizontal: 5.w, vertical: .2.h),
                   decoration: BoxDecoration(

@@ -1,5 +1,7 @@
 import 'package:covid19/UI/main_screens/covid_check/covid_check_screen.dart';
 import 'package:covid19/UI/main_screens/home/home.dart';
+import 'package:covid19/UI/main_screens/info_screen/info_detais/info_details_screen.dart';
+import 'package:covid19/UI/main_screens/info_screen/info_screen.dart';
 import 'package:covid19/UI/main_screens/main_screen/main_screen.dart';
 import 'package:covid19/UI/main_screens/map_screen/map_screen.dart';
 import 'package:covid19/UI/main_screens/more_screen/more_screen.dart';
@@ -20,5 +22,7 @@ class Routes {
     EditProfileScreen.routeName: (context) => EditProfileScreen(),
     MoreScreen.routeName: (context) => MoreScreen(),
     CovidCheckResultScreen.routeName: (context) => CovidCheckResultScreen(),
+    InfoScreen.routeName: (context) => InfoScreen(),
+    InfoItemDetailsScreen.routeName: (context) => InfoItemDetailsScreen(),
   };
 }

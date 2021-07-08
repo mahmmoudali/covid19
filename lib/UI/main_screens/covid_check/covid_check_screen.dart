@@ -42,7 +42,7 @@ class _CovidCheckScreenState extends State<CovidCheckScreen> {
               child: Container(
                 height: 70.h,
                 width: 100.w,
-                padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 5.w),
+                padding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 5.w),
                 decoration: BoxDecoration(
                     color: MColors.covidThird,
                     borderRadius: BorderRadius.only(
@@ -118,7 +118,7 @@ class _CovidCheckScreenState extends State<CovidCheckScreen> {
                     content: Text("Please Select one of your Symptoms!"),
                     backgroundColor: Theme.of(context).errorColor,
                   ))
-                : showLoading(context);
+                : showLoading(context, provider.progress);
             // Navigator.pushNamed(
             //     context, CovidCheckResultScreen.routeName));
           },
@@ -127,19 +127,20 @@ class _CovidCheckScreenState extends State<CovidCheckScreen> {
     );
   }
 
-  Future showLoading(BuildContext context) async {
+  Future showLoading(BuildContext context, double progress) async {
     showDialog(
       context: context,
       builder: (context) => LoadingIndicator(size: 11),
     );
     await Future.delayed(Duration(seconds: 2))
         .then((value) => Navigator.pop(context));
-    Navigator.pushNamed(context, CovidCheckResultScreen.routeName);
+    Navigator.pushNamed(context, CovidCheckResultScreen.routeName,
+        arguments: progress);
   }
 
   Container buildMainTitleText() {
     return Container(
-      height: 18.h,
+      height: 15.h,
       width: 90.w,
       padding: EdgeInsets.only(left: 2.w, right: 2.h, top: 2.h),
       decoration: BoxDecoration(
@@ -199,12 +200,48 @@ class _CovidCheckScreenState extends State<CovidCheckScreen> {
               Spacer(),
             ],
           ),
-          SizedBox(height: 5.h),
+          SizedBox(height: 2.h),
           Row(
             children: [
+              SymptomItem(symptom: provider.chestSeizures, context: context),
+              Spacer(),
               SymptomItem(symptom: provider.dryCough, context: context),
               Spacer(),
+            ],
+          ),
+          SizedBox(height: 2.h),
+          Row(
+            children: [
+              SymptomItem(symptom: provider.diarrhea, context: context),
+              Spacer(),
+              SymptomItem(symptom: provider.painsAndSoreness, context: context),
+              Spacer(),
+            ],
+          ),
+          SizedBox(height: 2.h),
+          Row(
+            children: [
+              SymptomItem(symptom: provider.exhausting, context: context),
+              Spacer(),
               SymptomItem(symptom: provider.fatigue, context: context),
+              Spacer(),
+            ],
+          ),
+          SizedBox(height: 2.h),
+          Row(
+            children: [
+              SymptomItem(symptom: provider.headache, context: context),
+              Spacer(),
+              SymptomItem(symptom: provider.painInchest, context: context),
+              Spacer(),
+            ],
+          ),
+          SizedBox(height: 2.h),
+          Row(
+            children: [
+              SymptomItem(symptom: provider.sneezing, context: context),
+              Spacer(),
+              SymptomItem(symptom: provider.soreThroat, context: context),
               Spacer(),
             ],
           ),
@@ -214,7 +251,7 @@ class _CovidCheckScreenState extends State<CovidCheckScreen> {
   }
 
   checkSymptom(List<Symptom> symptoms, BuildContext context) {
-    final provider = Provider.of<CovidCheckProvider>(context, listen: false);
+    final provider = Provider.of<CovidCheckProvider>(context, listen: true);
     provider.checkSymptom(symptoms);
     // progress = 0.0;
     // symptoms.forEach((symptom) {
@@ -232,7 +269,15 @@ class _CovidCheckScreenState extends State<CovidCheckScreen> {
           provider.fever,
           provider.shortnessOfBreathing,
           provider.fatigue,
-          provider.dryCough
+          provider.dryCough,
+          provider.chestSeizures,
+          provider.diarrhea,
+          provider.exhausting,
+          provider.headache,
+          provider.painInchest,
+          provider.painsAndSoreness,
+          provider.sneezing,
+          provider.soreThroat,
         ]);
       },
       child: Container(
