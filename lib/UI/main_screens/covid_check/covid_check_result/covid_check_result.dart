@@ -1,5 +1,6 @@
 import 'package:covid19/UI/components/default_button.dart';
 import 'package:covid19/UI/main_screens/covid_check/covid_chech_provider.dart';
+import 'package:covid19/UI/main_screens/covid_check/covid_check_result/model/instruction_model.dart';
 import 'package:covid19/UI/main_screens/covid_check/symptom.dart';
 import 'package:covid19/colors.dart';
 import 'package:flutter/material.dart';
@@ -63,10 +64,14 @@ class _CovidCheckResultScreenState extends State<CovidCheckResultScreen> {
                       // height: 45.h,
                       child: ListView.builder(
                           scrollDirection: Axis.vertical,
-                          itemCount: 3,
+                          itemCount: progress > .5
+                              ? InstructionData.covidInstructions.length
+                              : InstructionData.coldFluInstructions.length,
                           itemBuilder: (context, index) => InstructionItem(
-                                text:
-                                    "Three Ways You Can Help During\nthe COVID-19 Pandemic",
+                                text: progress > .5
+                                    ? InstructionData.covidInstructions[index]
+                                    : InstructionData
+                                        .coldFluInstructions[index],
                               )),
                     ),
                   ],
@@ -110,7 +115,10 @@ class _CovidCheckResultScreenState extends State<CovidCheckResultScreen> {
   }
 
   Text buildLearnWhatToDo() {
-    return Text("Learn What To Do Next",
+    return Text(
+        progress > .5
+            ? "How to recover from Covid-19"
+            : "How to recover from cold flu",
         // textAlign: TextAlign.start,
         style: TextStyle(
             fontFamily: "Plex",
@@ -155,7 +163,7 @@ class InstructionItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 17.h,
+      height: 40.h,
       width: 85.w,
       margin: EdgeInsets.symmetric(vertical: 1.5.h),
       decoration: BoxDecoration(
@@ -179,8 +187,13 @@ class InstructionItem extends StatelessWidget {
           Positioned(
               top: 2.5.h,
               left: 5.w,
-              child: Text(text,
-                  style: TextStyle(fontFamily: "Plex", fontSize: 16.sp))),
+              child: Container(
+                width: 80.w,
+                child: Text(text,
+                    maxLines: 9,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontFamily: "Plex", fontSize: 16.sp)),
+              )),
           Positioned(
               bottom: -4.h,
               right: -4.w,

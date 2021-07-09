@@ -202,10 +202,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   },
                   child: CircleAvatar(
                     radius: 50.h,
-                    backgroundColor: MColors.covidMain,
-                    backgroundImage: user == null
+                    backgroundColor: MColors.covidThird,
+                    backgroundImage: user != null
                         ? NetworkImage(user.photoURL)
-                        : Icon(FontAwesomeIcons.user),
+                        : AssetImage(
+                            "assets/images/ic_launcher.png",
+                          ),
                   ),
                 ),
               ),

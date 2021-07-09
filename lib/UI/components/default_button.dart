@@ -10,9 +10,12 @@ class DefaultButton extends StatelessWidget {
     this.text,
     this.color,
     this.textColor,
+    this.size,
   }) : super(key: key);
   final Function press;
   final String text;
+  final double size;
+
   final Color color;
   final Color textColor;
 
@@ -31,7 +34,7 @@ class DefaultButton extends StatelessWidget {
             style: TextStyle(
                 fontFamily: "Plex",
                 fontWeight: FontWeight.bold,
-                fontSize: 16.sp,
+                fontSize: size ?? 16.sp,
                 color: textColor ?? Colors.white),
           )),
     );

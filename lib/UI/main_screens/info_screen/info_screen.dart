@@ -3,6 +3,7 @@ import 'package:covid19/UI/main_screens/info_screen/model/info_model.dart';
 import 'package:covid19/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'info_detais/info_details_screen.dart';
 
@@ -19,6 +20,45 @@ class InfoScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 buildAppBar(context),
+                Container(
+                  margin: EdgeInsets.only(bottom: 1.h),
+                  decoration: BoxDecoration(
+                      color: MColors.covidMain.withOpacity(.1),
+                      borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(2.h),
+                          bottomRight: Radius.circular(2.h))),
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 3.w),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      SizedBox(
+                          width: 40.w,
+                          child: DefaultButton(
+                            text: "Covid Numbers",
+                            size: 12.sp,
+                            press: () {
+                              launch(
+                                  "https://www.google.com/search?q=%D8%A7%D8%B9%D8%AF%D8%A7%D8%AF+%D8%A7%D8%B5%D8%A7%D8%A8%D8%A7%D8%AA+%D9%83%D9%88%D8%B1%D9%88%D9%86%D8%A7&oq=%D8%A7%D8%B9%D8%AF%D8%A7%D8%AF+%D8%A7%D8%B5%D8%A7%D8%A8%D8%A7&aqs=chrome.0.0j69i57j0l8.9862j0j4&sourceid=chrome&ie=UTF-8");
+                            },
+                            color: MColors.covidMain,
+                          )),
+                      SizedBox(width: 1.h),
+                      SizedBox(
+                        width: 40.w,
+                        child: DefaultButton(
+                          text: "Covid Vaccine",
+                          size: 12.sp,
+                          press: () {
+                            launch("https://egcovac.mohp.gov.eg/#/home");
+                          },
+                          color: MColors.covidMain,
+                        ),
+                      ),
+                      Spacer(),
+                    ],
+                  ),
+                ),
                 Expanded(
                   child: ListView(
                     children: [
@@ -39,11 +79,11 @@ Medical masks are recommended primarily in healthcare facilities, but may be con
                           description:
                               '''Keep your hands clean by rubbing them with an alcohol-based hand sanitizer or by washing them with soap and water.
  Why? Cleaning your hands with soap and water or rubbing them with an alcohol-based hand sanitizer kills viruses that may be on your hands.
-/nMaintain at least 1 meter (3 feet) distance between yourself and others.
+\nMaintain at least 1 meter (3 feet) distance between yourself and others.
   Why? When a person coughs or sneezes, they secrete small liquid droplets from their nose or mouth that may contain the virus. If you are too close to him, you can breathe in these droplets, including the virus that causes COVID-19 if that person has it.
-/nAvoid crowded places
+\nAvoid crowded places
  Why? When people crowd into crowded places, people who have COVID-19 are more likely to come into contact with someone who has COVID-19 and it is difficult to maintain a distance of 1 meter (3 feet) between you and others.
-/nAvoid touching your eyes, nose and mouth.''',
+\nAvoid touching your eyes, nose and mouth.''',
                           assetImage: "assets/images/vaccine.jpg"),
                     ],
                   ),

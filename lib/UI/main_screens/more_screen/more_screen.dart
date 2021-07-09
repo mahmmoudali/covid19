@@ -1,3 +1,5 @@
+import 'package:covid19/UI/main_screens/info_screen/info_screen.dart';
+import 'package:covid19/UI/main_screens/map_screen/map_screen.dart';
 import 'package:covid19/UI/user/edit_profile/edit_profileScreen.dart';
 import 'package:covid19/colors.dart';
 import 'package:covid19/providers/google_sign_in.dart';
@@ -43,12 +45,16 @@ class MoreScreen extends StatelessWidget {
             iconData: FontAwesomeIcons.userAlt,
             color: MColors.covidMain),
         buildDivider(),
-        buildMoreItem(context,
+        buildMoreItem(context, onTap: () {
+          Navigator.pushNamed(context, InfoScreen.routeName);
+        },
             text: "Information",
             iconData: FontAwesomeIcons.info,
             color: MColors.covidMain),
         buildDivider(),
-        buildMoreItem(context,
+        buildMoreItem(context, onTap: () {
+          Navigator.pushNamed(context, MapScreen.routeName);
+        },
             text: "Map",
             iconData: FontAwesomeIcons.mapMarkedAlt,
             color: MColors.covidMain),
@@ -85,12 +91,10 @@ class MoreScreen extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
+        color: Colors.transparent,
         padding: EdgeInsets.symmetric(horizontal: 1.w),
         width: double.infinity,
         height: 5.h,
-
-        // decoration:
-        //     BoxDecoration(color: MColors.covidMain.withOpacity(.1)),
         child: Row(
           children: [
             Container(
@@ -111,7 +115,7 @@ class MoreScreen extends StatelessWidget {
                   fontFamily: "Plex",
                   fontSize: 12.sp,
                   color: MColors.covidMain),
-            )
+            ),
           ],
         ),
       ),
