@@ -35,7 +35,9 @@ class _SignInScreenState extends State<SignInScreen> {
         ChangeNotifierProvider(create: (context) => EmailSignInProvider()),
       ],
       child: StreamBuilder(
-        stream: FirebaseAuth.instance.authStateChanges(),
+        stream: /*FirebaseAuth.instance.authStateChanges()&*/ FirebaseAuth
+            .instance
+            .userChanges(),
         builder: (context, snapshot) {
           final googleProvider = Provider.of<GoogleSignInProvider>(context);
           final signInProvider = Provider.of<EmailSignInProvider>(context);

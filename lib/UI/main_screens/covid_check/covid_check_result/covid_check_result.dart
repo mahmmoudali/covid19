@@ -163,7 +163,7 @@ class InstructionItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 40.h,
+      height: 50.h,
       width: 85.w,
       margin: EdgeInsets.symmetric(vertical: 1.5.h),
       decoration: BoxDecoration(
@@ -190,7 +190,7 @@ class InstructionItem extends StatelessWidget {
               child: Container(
                 width: 80.w,
                 child: Text(text,
-                    maxLines: 9,
+                    maxLines: 12,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(fontFamily: "Plex", fontSize: 16.sp)),
               )),
