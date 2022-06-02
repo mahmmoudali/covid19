@@ -23,7 +23,7 @@ class SignInScreen extends StatefulWidget {
 
 class _SignInScreenState extends State<SignInScreen> {
   final _formKey = GlobalKey<FormState>();
-  String email, password;
+  late String email, password;
   bool remember = false;
   bool flage = false;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -97,7 +97,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 value: remember,
                 onChanged: (value) {
                   setState(() {
-                    remember = value;
+                    remember = value!;
                   });
                 },
               ),
@@ -228,15 +228,15 @@ class _SignInScreenState extends State<SignInScreen> {
     return TextFormField(
       onSaved: (newValue) => provider.userPassword = newValue,
       validator: (value) {
-        if (value.isEmpty)
+        if (value!.isEmpty)
           return "You must enter a password";
-        else if (value.length < 8)
+        else if (value!.length < 8)
           return "Password must be more than 8 chars";
         else
           return null;
       },
       onFieldSubmitted: (value) {
-        _formKey.currentState.validate();
+        _formKey.currentState!.validate();
       },
       obscureText: true,
       decoration: InputDecoration(
@@ -253,7 +253,7 @@ class _SignInScreenState extends State<SignInScreen> {
     return TextFormField(
       onSaved: (newValue) => provider.userEmail = newValue,
       validator: (value) {
-        if (value.isEmpty)
+        if (value!.isEmpty)
           return "You must enter an email";
         else if (!emailValidatorRegExp.hasMatch(value))
           return "You must enter a valid email";
@@ -261,7 +261,7 @@ class _SignInScreenState extends State<SignInScreen> {
           return null;
       },
       onFieldSubmitted: (value) {
-        _formKey.currentState.validate();
+        _formKey.currentState!.validate();
       },
       keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
@@ -277,12 +277,12 @@ class _SignInScreenState extends State<SignInScreen> {
     final provider = Provider.of<EmailSignInProvider>(context, listen: false);
     provider.isLogin = true;
     FocusScope.of(context).unfocus();
-    if (_formKey.currentState.validate()) {
-      _formKey.currentState.save();
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
       final isSuccess = await provider.login();
       if (!isSuccess) {
         final msg = "An error occurred, please check your credential";
-        _scaffoldKey.currentState.showSnackBar(SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(msg),
           backgroundColor: Theme.of(context).errorColor,
         ));
@@ -293,14 +293,14 @@ class _SignInScreenState extends State<SignInScreen> {
 
 class buildSocialLoginWidget extends StatelessWidget {
   const buildSocialLoginWidget({
-    Key key,
+    Key? key,
     this.webSiteName,
     this.icon,
     this.onPress,
   }) : super(key: key);
-  final String webSiteName;
-  final String icon;
-  final Function onPress;
+  final String? webSiteName;
+  final String? icon;
+  final VoidCallback? onPress;
 
   @override
   Widget build(BuildContext context) {
@@ -312,7 +312,7 @@ class buildSocialLoginWidget extends StatelessWidget {
         height: 5.h,
         width: 60.w,
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey[200]),
+          border: Border.all(color: Colors.grey[200]!),
           borderRadius: BorderRadius.circular(5.h),
           // color: Colors.grey[200],
         ),
@@ -322,7 +322,7 @@ class buildSocialLoginWidget extends StatelessWidget {
             Container(
               width: 5.h,
               child: SvgPicture.asset(
-                icon,
+                icon!,
                 height: 5.h,
               ),
             ),

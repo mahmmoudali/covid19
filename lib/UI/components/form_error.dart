@@ -5,20 +5,20 @@ import 'package:sizer/sizer.dart';
 
 class FormError extends StatelessWidget {
   const FormError({
-    Key key,
+    Key? key,
     @required this.errors,
   }) : super(key: key);
 
-  final List<String> errors;
+  final List<String>? errors;
 
   @override
   Widget build(BuildContext context) {
     return Column(
         children: List.generate(
-            errors.length, (index) => formErrorText(error: errors[index])));
+            errors!.length, (index) => formErrorText(error: errors![index])));
   }
 
-  Widget formErrorText({String error}) {
+  Widget formErrorText({String? error}) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: .2.h),
       child: Row(
@@ -32,7 +32,7 @@ class FormError extends StatelessWidget {
             width: 1.w,
           ),
           Text(
-            error,
+            error!,
             style: TextStyle(color: MColors.kTextColor),
           )
         ],

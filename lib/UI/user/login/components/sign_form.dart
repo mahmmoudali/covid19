@@ -15,7 +15,7 @@ class SignForm extends StatefulWidget {
 class _SignFormState extends State<SignForm> {
   final _formKey = GlobalKey<FormState>();
   final List<String> errors = [];
-  String email, password;
+   late String email, password;
   bool remember = false;
   bool flage = false;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -40,7 +40,7 @@ class _SignFormState extends State<SignForm> {
                   value: remember,
                   onChanged: (value) {
                     setState(() {
-                      remember = value;
+                      remember = value!;
                     });
                   },
                 ),
@@ -78,9 +78,9 @@ class _SignFormState extends State<SignForm> {
 
   TextFormField buildPasswordFormField() {
     return TextFormField(
-      onSaved: (newValue) => password = newValue,
+      onSaved: (newValue) => password = newValue!,
       validator: (value) {
-        if (value.isEmpty)
+        if (value!.isEmpty)
           return "You must enter a password";
         else if (value.length < 8)
           return "Password must be more than 8 chars";
@@ -88,7 +88,7 @@ class _SignFormState extends State<SignForm> {
           return null;
       },
       onFieldSubmitted: (value) {
-        _formKey.currentState.validate();
+        _formKey.currentState!.validate();
       },
       obscureText: true,
       decoration: InputDecoration(
@@ -102,9 +102,9 @@ class _SignFormState extends State<SignForm> {
 
   TextFormField buildEmailFormField() {
     return TextFormField(
-      onSaved: (newValue) => email = newValue,
+      onSaved: (newValue) => email = newValue!,
       validator: (value) {
-        if (value.isEmpty)
+        if (value!.isEmpty)
           return "You must enter an email";
         else if (!emailValidatorRegExp.hasMatch(value))
           return "You must enter a valid email";
@@ -112,7 +112,7 @@ class _SignFormState extends State<SignForm> {
           return null;
       },
       onFieldSubmitted: (value) {
-        _formKey.currentState.validate();
+        _formKey.currentState!.validate();
       },
       keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
@@ -128,8 +128,8 @@ class _SignFormState extends State<SignForm> {
     final provider = Provider.of<EmailSignInProvider>(context, listen: false);
     provider.isLogin = true;
     FocusScope.of(context).unfocus();
-    if (_formKey.currentState.validate()) {
-      _formKey.currentState.save();
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
       //   final isSuccess = await provider.login();
       //   if (isSuccess) {
       //     Navigator.of(context).pop();

@@ -1,19 +1,19 @@
 class CityDataResponse {
-  double latitude;
-  double longitude;
-  String lookupSource;
-  String plusCode;
-  String localityLanguageRequested;
-  String continent;
-  String continentCode;
-  String countryName;
-  String countryCode;
-  String principalSubdivision;
-  String principalSubdivisionCode;
-  String city;
-  String locality;
-  String postcode;
-  LocalityInfo localityInfo;
+  double? latitude;
+  double? longitude;
+  String? lookupSource;
+  String? plusCode;
+  String? localityLanguageRequested;
+  String? continent;
+  String? continentCode;
+  String? countryName;
+  String? countryCode;
+  String? principalSubdivision;
+  String? principalSubdivisionCode;
+  String? city;
+  String? locality;
+  String? postcode;
+  LocalityInfo? localityInfo;
 
   CityDataResponse(
       {this.latitude,
@@ -69,29 +69,29 @@ class CityDataResponse {
     data['locality'] = this.locality;
     data['postcode'] = this.postcode;
     if (this.localityInfo != null) {
-      data['localityInfo'] = this.localityInfo.toJson();
+      data['localityInfo'] = this.localityInfo!.toJson();
     }
     return data;
   }
 }
 
 class LocalityInfo {
-  List<Administrative> administrative;
-  List<Informative> informative;
+  List<Administrative>? administrative;
+  List<Informative>? informative;
 
   LocalityInfo({this.administrative, this.informative});
 
   LocalityInfo.fromJson(Map<String, dynamic> json) {
     if (json['administrative'] != null) {
-      administrative = new List<Administrative>();
+      administrative =  [];
       json['administrative'].forEach((v) {
-        administrative.add(new Administrative.fromJson(v));
+        administrative!.add(new Administrative.fromJson(v));
       });
     }
     if (json['informative'] != null) {
-      informative = new List<Informative>();
+      informative = [];
       json['informative'].forEach((v) {
-        informative.add(new Informative.fromJson(v));
+        informative!.add(new Informative.fromJson(v));
       });
     }
   }
@@ -100,24 +100,24 @@ class LocalityInfo {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.administrative != null) {
       data['administrative'] =
-          this.administrative.map((v) => v.toJson()).toList();
+          this.administrative!.map((v) => v.toJson()).toList();
     }
     if (this.informative != null) {
-      data['informative'] = this.informative.map((v) => v.toJson()).toList();
+      data['informative'] = this.informative!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Administrative {
-  int order;
-  int adminLevel;
-  String name;
-  String description;
-  String isoName;
-  String isoCode;
-  String wikidataId;
-  int geonameId;
+  int? order;
+  int? adminLevel;
+  String? name;
+  String? description;
+  String? isoName;
+  String? isoCode;
+  String? wikidataId;
+  int? geonameId;
 
   Administrative(
       {this.order,
@@ -155,12 +155,12 @@ class Administrative {
 }
 
 class Informative {
-  int order;
-  String name;
-  String description;
-  String isoCode;
-  String wikidataId;
-  int geonameId;
+  int? order;
+  String? name;
+  String? description;
+  String? isoCode;
+  String? wikidataId;
+  int? geonameId;
 
   Informative(
       {this.order,

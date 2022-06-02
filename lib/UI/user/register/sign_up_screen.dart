@@ -15,7 +15,7 @@ class SignUpScreen extends StatelessWidget {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final List<String> errors = [];
 
-  String email, password, name, age;
+  late String email, password, name, age;
   static String routeName = '/sign_up';
   @override
   Widget build(BuildContext context) {
@@ -91,12 +91,12 @@ class SignUpScreen extends StatelessWidget {
     final provider = Provider.of<EmailSignInProvider>(context, listen: false);
     provider.isLogin = false;
     FocusScope.of(context).unfocus();
-    if (_formKey.currentState.validate()) {
-      _formKey.currentState.save();
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
       final isSuccess = await provider.login();
       if (isSuccess) {
         final msg = "Account Registered";
-        _scaffoldKey.currentState.showSnackBar(SnackBar(
+        _scaffoldKey.currentState!.showSnackBar(SnackBar(
           content: Text(msg),
           backgroundColor: MColors.covidMain,
         ));
@@ -105,7 +105,7 @@ class SignUpScreen extends StatelessWidget {
         Navigator.pop(context);
       } else {
         final msg = "An error occurred, please check your credential";
-        _scaffoldKey.currentState.showSnackBar(SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(msg),
           backgroundColor: Theme.of(context).errorColor,
         ));
@@ -193,7 +193,7 @@ class SignUpScreen extends StatelessWidget {
     return TextFormField(
       onSaved: (newValue) => provider.userPassword = newValue,
       validator: (value) {
-        if (value.isEmpty)
+        if (value!.isEmpty)
           return "You must enter a password";
         else if (value.length < 8)
           return "Password must be more than 8 chars";
@@ -201,7 +201,7 @@ class SignUpScreen extends StatelessWidget {
           return null;
       },
       onFieldSubmitted: (value) {
-        _formKey.currentState.validate();
+        _formKey.currentState!.validate();
       },
       obscureText: true,
       decoration: InputDecoration(
@@ -221,7 +221,7 @@ class SignUpScreen extends StatelessWidget {
     return TextFormField(
       onSaved: (newValue) => provider.userEmail = newValue,
       validator: (value) {
-        if (value.isEmpty)
+        if (value!.isEmpty)
           return "You must enter an email";
         else if (!emailValidatorRegExp.hasMatch(value))
           return "You must enter a valid email";
@@ -229,7 +229,7 @@ class SignUpScreen extends StatelessWidget {
           return null;
       },
       onFieldSubmitted: (value) {
-        _formKey.currentState.validate();
+        _formKey.currentState!.validate();
       },
       keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
@@ -245,15 +245,15 @@ class SignUpScreen extends StatelessWidget {
 
   TextFormField buildNameFormField() {
     return TextFormField(
-      onSaved: (newValue) => name = newValue,
+      onSaved: (newValue) => name = newValue!,
       validator: (value) {
-        if (value.isEmpty)
+        if (value!.isEmpty)
           return "You must enter your name";
         else
           return null;
       },
       onFieldSubmitted: (value) {
-        _formKey.currentState.validate();
+        _formKey.currentState!.validate();
       },
       keyboardType: TextInputType.name,
       decoration: InputDecoration(
@@ -269,15 +269,15 @@ class SignUpScreen extends StatelessWidget {
 
   TextFormField buildAgeFormField() {
     return TextFormField(
-      onSaved: (newValue) => age = newValue,
+      onSaved: (newValue) => age = newValue!,
       validator: (value) {
-        if (value.isEmpty)
+        if (value!.isEmpty)
           return "You must enter your age";
         else
           return null;
       },
       onFieldSubmitted: (value) {
-        _formKey.currentState.validate();
+        _formKey.currentState!.validate();
       },
       keyboardType: TextInputType.number,
       decoration: InputDecoration(

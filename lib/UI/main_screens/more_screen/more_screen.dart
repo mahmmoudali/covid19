@@ -87,7 +87,7 @@ class MoreScreen extends StatelessWidget {
   }
 
   GestureDetector buildMoreItem(BuildContext context,
-      {@required String text, IconData iconData, Color color, Function onTap}) {
+      {required String text, IconData? iconData, Color? color, VoidCallback? onTap}) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -145,9 +145,7 @@ class MoreScreen extends StatelessWidget {
                   child: CircleAvatar(
                     radius: 5.h,
                     backgroundColor: MColors.covidMain,
-                    backgroundImage: user.photoURL == null
-                        ? AssetImage("assets/images/background.png")
-                        : NetworkImage(user.photoURL),
+                    backgroundImage: NetworkImage(user!.photoURL!),
                   ),
                 ),
                 Container(
@@ -173,7 +171,7 @@ class MoreScreen extends StatelessWidget {
                       Container(
                         width: 50.w,
                         child: Text(
-                          user.displayName == null ? "User" : user.displayName,
+                          user!.displayName!.isEmpty ? "User" : user!.displayName!,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               fontWeight: FontWeight.w700,

@@ -9,10 +9,10 @@ class DirectionRepository {
       "https://maps.googleapis.com/maps/api/directions/json?";
 
   final Dio _dio;
-  DirectionRepository({Dio dio}) : _dio = dio ?? Dio();
+  DirectionRepository({Dio? dio}) : _dio = dio ?? Dio();
   Future<Directions> getDirection({
-    @required LatLng origin,
-    @required LatLng destination,
+    required LatLng origin,
+    required LatLng destination,
   }) async {
     final response = await _dio.get(_baseUrl, queryParameters: {
       'origin': "${origin.latitude},${origin.longitude}",
@@ -21,10 +21,10 @@ class DirectionRepository {
     });
     //check response
     if (response.statusCode == 200) {
-      print("Request Ok" + response.statusMessage);
+      print("Request Ok" + response.statusMessage!);
       return Directions.fromMap(response.data);
     }
-    print("Request Error" + response.statusMessage);
-    return null;
+    print("Request Error" + response.statusMessage!);
+    return null!;
   }
 }

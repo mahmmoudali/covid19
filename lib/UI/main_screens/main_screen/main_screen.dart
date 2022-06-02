@@ -34,7 +34,7 @@ class _MainScreenState extends State<MainScreen> {
             case 2:
               return MoreScreen();
             default:
-              return null;
+              return Container();
           }
         }),
         bottomNavigationBar: buildBottomNavigationBar(context),
@@ -118,7 +118,7 @@ class _MainScreenState extends State<MainScreen> {
           boxShadow: [
             BoxShadow(
                 // color: Colors.amber,
-                color: Colors.grey[200],
+                color: Colors.grey[200]!,
                 spreadRadius: 1,
                 blurRadius: 2,
                 offset: Offset(0, 5))
@@ -176,7 +176,7 @@ class _MainScreenState extends State<MainScreen> {
           label: "Chat",
         ),
         BottomNavigationBarItem(
-            icon: user.photoURL == null
+            icon: user!.photoURL == null
                 ? Icon(FontAwesomeIcons.userAlt)
                 : SizedBox(
                     height: 4.h,
@@ -190,7 +190,7 @@ class _MainScreenState extends State<MainScreen> {
                                   ? MColors.covidMain
                                   : Colors.grey)),
                       child: CircleAvatar(
-                          backgroundImage: NetworkImage(user.photoURL)),
+                          backgroundImage: NetworkImage(user.photoURL!)),
                     ),
                   ),
             label: "Profile"),
@@ -204,10 +204,10 @@ class HomeItem extends StatelessWidget {
   const HomeItem({
     this.icon,
     this.text,
-    Key key,
+    Key? key,
   }) : super(key: key);
-  final String text;
-  final Widget icon;
+  final String? text;
+  final Widget? icon;
 
   @override
   Widget build(BuildContext context) {
@@ -221,7 +221,7 @@ class HomeItem extends StatelessWidget {
             boxShadow: [
               BoxShadow(
                   // color: Colors.amber,
-                  color: Colors.grey[200],
+                  color: Colors.grey[200]!,
                   spreadRadius: 1,
                   blurRadius: 2,
                   offset: Offset(0, 5))
@@ -234,7 +234,7 @@ class HomeItem extends StatelessWidget {
           child: icon,
         ),
         SizedBox(height: 1.5.h),
-        Text(text, style: TextStyle(fontFamily: "Plex"))
+        Text(text!, style: TextStyle(fontFamily: "Plex"))
       ],
     );
   }

@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 class InfoItemDetailsScreen extends StatelessWidget {
-  Info infoItem;
+  dynamic infoItem;
   InfoItemDetailsScreen();
   static final String routeName = "/InfoItemDetailsScreen";
 
   @override
   Widget build(BuildContext context) {
-    infoItem = ModalRoute.of(context).settings.arguments;
+    infoItem = ModalRoute.of(context)!.settings.arguments;
     return Scaffold(
       body: SafeArea(
         child: Container(

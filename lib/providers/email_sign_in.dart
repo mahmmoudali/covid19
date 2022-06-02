@@ -2,12 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class EmailSignInProvider extends ChangeNotifier {
-  bool _isLoading;
-  bool _isLogin;
-  String _userEmail;
-  String _userPassword;
-  String _userName;
-  DateTime _dateOfBirth;
+  bool? _isLoading;
+  bool? _isLogin;
+  String? _userEmail;
+  String? _userPassword;
+  String? _userName;
+  DateTime? _dateOfBirth;
 
   EmailSignInProvider() {
     _isLoading = false;

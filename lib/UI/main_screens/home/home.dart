@@ -19,7 +19,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   HomePagePresenter presenter = HomePagePresenter();
-  String cases;
+  String? cases;
 
   @override
   Widget build(BuildContext context) {
@@ -145,7 +145,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   snapshot.hasData
                       ? Container(
                           height: 6.h,
-                          child: Text(snapshot.data.cases.toString(),
+                          child: Text(snapshot.data!.cases.toString(),
                               style: TextStyle(
                                   fontFamily: "Plex",
                                   fontWeight: FontWeight.bold,
@@ -216,7 +216,7 @@ class _HomeScreenState extends State<HomeScreen> {
           boxShadow: [
             BoxShadow(
                 // color: Colors.amber,
-                color: Colors.grey[200],
+                color: Colors.grey[200]!,
                 spreadRadius: 1,
                 blurRadius: 2,
                 offset: Offset(0, 5))
@@ -262,7 +262,7 @@ class _HomeScreenState extends State<HomeScreen> {
           boxShadow: [
             BoxShadow(
                 // color: Colors.amber,
-                color: Colors.grey[200],
+                color: Colors.grey[200]!,
                 spreadRadius: 1,
                 blurRadius: 2,
                 offset: Offset(0, 5))
@@ -308,10 +308,10 @@ class HomeItem extends StatelessWidget {
   const HomeItem({
     this.icon,
     this.text,
-    Key key,
+    Key? key,
   }) : super(key: key);
-  final String text;
-  final Widget icon;
+  final String? text;
+  final Widget? icon;
 
   @override
   Widget build(BuildContext context) {
@@ -325,7 +325,7 @@ class HomeItem extends StatelessWidget {
             boxShadow: [
               BoxShadow(
                   // color: Colors.amber,
-                  color: Colors.grey[200],
+                  color: Colors.grey[200]!,
                   spreadRadius: 1,
                   blurRadius: 2,
                   offset: Offset(0, 5))
@@ -338,7 +338,7 @@ class HomeItem extends StatelessWidget {
           child: icon,
         ),
         SizedBox(height: 1.5.h),
-        Text(text, style: TextStyle(fontFamily: "Plex"))
+        Text(text!, style: TextStyle(fontFamily: "Plex"))
       ],
     );
   }

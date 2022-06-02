@@ -5,8 +5,8 @@ import 'package:sizer/sizer.dart';
 
 class LoadingIndicator extends StatelessWidget {
   const LoadingIndicator({
-    Key key,
-    @required this.size,
+    Key? key,
+    required this.size,
   }) : super(key: key);
   final double size;
 

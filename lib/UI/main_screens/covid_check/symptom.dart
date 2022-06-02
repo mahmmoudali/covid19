@@ -4,12 +4,12 @@ class Symptom extends ChangeNotifier {
   final String name;
   bool _isSelected = false;
 
-  Symptom({@required this.name});
+  Symptom({required this.name});
 
   set isSelected(bool value) {
     _isSelected = value;
     notifyListeners();
   }
 
-  get isSelected => _isSelected;
+  bool get isSelected => _isSelected;
 }

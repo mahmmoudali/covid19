@@ -23,22 +23,22 @@ class EditProfileScreen extends StatefulWidget {
 class _EditProfileScreenState extends State<EditProfileScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  String email, password, name, number;
+   late String email, password, name, number;
 
-  User user = FirebaseAuth.instance.currentUser;
+  User? user = FirebaseAuth.instance.currentUser;
 
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneNumController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   final ImagePicker picker = ImagePicker();
-  PickedFile pickedFile;
-  String imageUrl;
+  late PickedFile pickedFile;
+  late String imageUrl;
 
   @override
   void initState() {
-    nameController.text = user.displayName;
-    emailController.text = user.email;
-    phoneNumController.text = user.phoneNumber;
+    nameController.text = user!.displayName!;
+    emailController.text = user!.email!;
+    phoneNumController.text = user!.phoneNumber!;
 
     super.initState();
   }
@@ -71,13 +71,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         DefaultButton(
                           text: 'Save',
                           press: () async {
-                            if (_formKey.currentState.validate()) {
+                            if (_formKey.currentState!.validate()) {
                               FocusScope.of(context).unfocus();
-                              _formKey.currentState.save();
+                              _formKey.currentState!.save();
                               showLoading(context);
-                              await user.updateDisplayName(name);
-                              await user.updateEmail(email);
-                              await user.reload();
+                              await user!.updateDisplayName(name);
+                              await user!.updateEmail(email);
+                              await user!.reload();
                               user = FirebaseAuth.instance.currentUser;
 
                               Navigator.pop(context);
@@ -104,13 +104,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   TextFormField buildAgeTextFormField() {
     return TextFormField(
       controller: phoneNumController,
-      onSaved: (newValue) => number = newValue,
+      onSaved: (newValue) => number = newValue!,
       validator: (value) {
-        if (value.isEmpty) return "You must enter your phone number";
+        if (value!.isEmpty) return "You must enter your phone number";
         return null;
       },
       onFieldSubmitted: (value) {
-        _formKey.currentState.validate();
+        _formKey.currentState!.validate();
       },
       keyboardType: TextInputType.number,
       decoration: InputDecoration(
@@ -128,9 +128,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   TextFormField buildEmailTextFormField() {
     return TextFormField(
       controller: emailController,
-      onSaved: (newValue) => email = newValue,
+      onSaved: (newValue) => email = newValue!,
       validator: (value) {
-        if (value.isEmpty)
+        if (value!.isEmpty)
           return "You must enter an email";
         else if (!emailValidatorRegExp.hasMatch(value))
           return "You must enter a valid email";
@@ -138,7 +138,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         return null;
       },
       onFieldSubmitted: (value) {
-        _formKey.currentState.validate();
+        _formKey.currentState!.validate();
       },
       keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
@@ -155,14 +155,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   TextFormField buildNameTextFormField() {
     return TextFormField(
       controller: nameController,
-      onSaved: (newValue) => name = newValue,
+      onSaved: (newValue) => name = newValue!,
       validator: (value) {
-        if (value.isEmpty) return "You must enter your name";
+        if (value!.isEmpty) return "You must enter your name";
 
         return null;
       },
       onFieldSubmitted: (value) {
-        _formKey.currentState.validate();
+        _formKey.currentState!.validate();
       },
       keyboardType: TextInputType.name,
       decoration: InputDecoration(
@@ -223,10 +223,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         .child("unique_name.jpg"); //generate a unique name
                     showLoading(context);
                     await ref.putFile(
-                        File(pickedImage.path)); //you need to add path here
+                        File(pickedImage!.path)); //you need to add path here
                     imageUrl = await ref.getDownloadURL();
                     print(imageUrl);
-                    await user.updatePhotoURL(imageUrl).whenComplete(
+                    await user!.updatePhotoURL(imageUrl).whenComplete(
                         () => user = FirebaseAuth.instance.currentUser);
                     setState(() {
                       print("done");
@@ -240,9 +240,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   child: CircleAvatar(
                     radius: 50.h,
                     backgroundColor: MColors.covidThird,
-                    backgroundImage: user.photoURL != null
-                        ? NetworkImage(user.photoURL)
-                        : AssetImage(
+                    backgroundImage:  AssetImage(
                             "assets/images/ic_launcher.png",
                           ),
                   ),

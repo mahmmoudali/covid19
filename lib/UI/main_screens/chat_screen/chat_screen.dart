@@ -41,9 +41,9 @@ class _ChatScreenState extends State<ChatScreen> {
         i++;
       }
       Timer(Duration(milliseconds: 300), () {
-        _chatViewKey.currentState.scrollController
+        _chatViewKey.currentState!.scrollController
           ..animateTo(
-            _chatViewKey.currentState.scrollController.position.maxScrollExtent,
+            _chatViewKey.currentState!.scrollController.position.maxScrollExtent,
             curve: Curves.easeOut,
             duration: const Duration(milliseconds: 300),
           );
@@ -78,7 +78,7 @@ class _ChatScreenState extends State<ChatScreen> {
       // appBar: AppBar(
       //   title: Text("Chat App"),
       // ),
-      body: StreamBuilder<QuerySnapshot>(
+      body: StreamBuilder<QuerySnapshot<Map<String,dynamic>>>(
           stream: FirebaseFirestore.instance
               .collection('messages')
               .orderBy("createdAt")
@@ -93,9 +93,9 @@ class _ChatScreenState extends State<ChatScreen> {
                 ),
               );
             } else {
-              List<DocumentSnapshot> items = snapshot.data.docs;
+              List<DocumentSnapshot<Map<String,dynamic>>> items = snapshot.data!.docs;
               var messages =
-                  items.map((i) => ChatMessage.fromJson(i.data())).toList();
+                  items.map((i) => ChatMessage.fromJson(i.data()!)).toList();
               return DashChat(
                 key: _chatViewKey,
                 inverted: false,
@@ -136,9 +136,9 @@ class _ChatScreenState extends State<ChatScreen> {
                   });
 
                   Timer(Duration(milliseconds: 300), () {
-                    _chatViewKey.currentState.scrollController
+                    _chatViewKey.currentState!.scrollController
                       ..animateTo(
-                        _chatViewKey.currentState.scrollController.position
+                        _chatViewKey.currentState!.scrollController.position
                             .maxScrollExtent,
                         curve: Curves.easeOut,
                         duration: const Duration(milliseconds: 300),
@@ -164,7 +164,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     icon: Icon(Icons.photo),
                     onPressed: () async {
                       final picker = ImagePicker();
-                      PickedFile result = await picker.getImage(
+                      PickedFile? result = await picker.getImage(
                         source: ImageSource.gallery,
                         imageQuality: 80,
                         maxHeight: 400,

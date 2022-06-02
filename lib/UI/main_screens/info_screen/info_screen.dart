@@ -110,10 +110,10 @@ class InfoScreen extends StatelessWidget {
 
 class InfoItem extends StatelessWidget {
   const InfoItem({
-    Key key,
+    Key? key,
     this.info,
   }) : super(key: key);
-  final Info info;
+  final Info? info;
 
   @override
   Widget build(BuildContext context) {
@@ -124,7 +124,7 @@ class InfoItem extends StatelessWidget {
         boxShadow: [
           BoxShadow(
               // color: Colors.amber,
-              color: Colors.grey[200],
+              color: Colors.grey[200]!,
               spreadRadius: 1,
               blurRadius: 2,
               offset: Offset(0, 5))
@@ -144,7 +144,7 @@ class InfoItem extends StatelessWidget {
               width: 90.w,
               decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: AssetImage(info.assetImage), fit: BoxFit.cover),
+                      image: AssetImage(info!.assetImage!), fit: BoxFit.cover),
                   color: MColors.covidMain,
                   borderRadius: BorderRadius.circular(3.h)),
             ),
@@ -152,7 +152,7 @@ class InfoItem extends StatelessWidget {
           Container(
             margin: EdgeInsets.only(bottom: 1.h),
             child: Text(
-              info.title,
+              info!.title!,
               textAlign: TextAlign.start,
               style: TextStyle(
                   fontFamily: "Plex",
@@ -163,7 +163,7 @@ class InfoItem extends StatelessWidget {
           Container(
             margin: EdgeInsets.only(bottom: 1.h),
             child: Text(
-              info.description,
+              info!.description!,
               textAlign: TextAlign.start,
               maxLines: 3,
               overflow: TextOverflow.ellipsis,

@@ -114,7 +114,7 @@ class _CovidCheckScreenState extends State<CovidCheckScreen> {
             final provider =
                 Provider.of<CovidCheckProvider>(context, listen: false);
             provider.progress == 0.0
-                ? _scaffoldKey.currentState.showSnackBar(SnackBar(
+                ? ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     content: Text("Please Select one of your Symptoms!"),
                     backgroundColor: Theme.of(context).errorColor,
                   ))
@@ -259,8 +259,8 @@ class _CovidCheckScreenState extends State<CovidCheckScreen> {
     // });
   }
 
-  Widget SymptomItem({@required Symptom symptom, BuildContext context}) {
-    final provider = Provider.of<CovidCheckProvider>(context, listen: true);
+  Widget SymptomItem({required Symptom symptom, BuildContext? context}) {
+    final provider = Provider.of<CovidCheckProvider>(context!, listen: true);
 
     return GestureDetector(
       onTap: () {
@@ -285,7 +285,7 @@ class _CovidCheckScreenState extends State<CovidCheckScreen> {
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
-                color: Colors.grey[200],
+                color: Colors.grey[200]!,
                 spreadRadius: 1,
                 blurRadius: 2,
                 offset: Offset(0, 5))

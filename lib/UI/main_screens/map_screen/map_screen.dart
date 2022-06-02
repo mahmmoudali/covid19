@@ -23,10 +23,10 @@ class MapScreen extends StatefulWidget {
 class _MapScreenState extends State<MapScreen> {
   static CameraPosition _intialCameraPosition =
       CameraPosition(zoom: 11.5, target: LatLng(30.033333, 31.233334));
-  GoogleMapController _googleMapController;
-  Marker _origin;
-  Marker _destination;
-  Directions _info;
+  late GoogleMapController _googleMapController;
+  late Marker _origin;
+  late Marker _destination;
+  late Directions _info;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -127,8 +127,8 @@ class _MapScreenState extends State<MapScreen> {
 
       showCovidNumbersInThisLocation(context, cityName);
     });
-    _destination = null;
-    _info = null;
+    _destination = null!;
+    _info = null!;
     // } else {
     //   //origin is already set ==> setbdestination
     //   setState(() {
@@ -154,7 +154,7 @@ class _MapScreenState extends State<MapScreen> {
         .then((value) => Navigator.pop(context));
     print(cityName);
     cityName == null
-        ? _scaffoldKey.currentState.showSnackBar(SnackBar(
+        ? ScaffoldMessenger.of(context). showSnackBar(SnackBar(
             content: Text("Selected Area not recognized!"),
             backgroundColor: Theme.of(context).errorColor))
         : showLocationInformation(context, cityName);

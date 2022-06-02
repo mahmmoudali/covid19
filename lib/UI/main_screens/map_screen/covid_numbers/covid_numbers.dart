@@ -21,9 +21,9 @@ class Cities {
 }
 
 class City {
-  final double lat;
-  final double lon;
-  final String name;
+  final double? lat;
+  final double? lon;
+  final String? name;
 
   City({@required this.name, @required this.lat, @required this.lon});
 }

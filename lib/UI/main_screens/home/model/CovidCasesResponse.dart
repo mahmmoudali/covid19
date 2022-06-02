@@ -1,28 +1,28 @@
 class CovidCasesResponse {
-  int updated;
-  String country;
-  CountryInfo countryInfo;
-  int cases;
-  int todayCases;
-  int deaths;
-  int todayDeaths;
-  int recovered;
-  int todayRecovered;
-  int active;
-  int critical;
-  int casesPerOneMillion;
-  int deathsPerOneMillion;
-  int tests;
-  int testsPerOneMillion;
-  int population;
-  String continent;
-  int oneCasePerPeople;
-  int oneDeathPerPeople;
-  int oneTestPerPeople;
-  int undefined;
-  double activePerOneMillion;
-  double recoveredPerOneMillion;
-  double criticalPerOneMillion;
+  int? updated;
+  String? country;
+  CountryInfo? countryInfo;
+  int? cases;
+  int? todayCases;
+  int? deaths;
+  int? todayDeaths;
+  int? recovered;
+  int? todayRecovered;
+  int? active;
+  int? critical;
+  int? casesPerOneMillion;
+  int? deathsPerOneMillion;
+  int? tests;
+  int? testsPerOneMillion;
+  int? population;
+  String? continent;
+  int? oneCasePerPeople;
+  int? oneDeathPerPeople;
+  int? oneTestPerPeople;
+  int? undefined;
+  double? activePerOneMillion;
+  double? recoveredPerOneMillion;
+  double? criticalPerOneMillion;
 
   CovidCasesResponse(
       {this.updated,
@@ -84,7 +84,7 @@ class CovidCasesResponse {
     data['updated'] = this.updated;
     data['country'] = this.country;
     if (this.countryInfo != null) {
-      data['countryInfo'] = this.countryInfo.toJson();
+      data['countryInfo'] = this.countryInfo!.toJson();
     }
     data['cases'] = this.cases;
     data['todayCases'] = this.todayCases;
@@ -112,12 +112,12 @@ class CovidCasesResponse {
 }
 
 class CountryInfo {
-  int iId;
-  String iso2;
-  String iso3;
-  int lat;
-  int long;
-  String flag;
+  int? iId;
+  String? iso2;
+  String? iso3;
+  int? lat;
+  int? long;
+  String? flag;
 
   CountryInfo({this.iId, this.iso2, this.iso3, this.lat, this.long, this.flag});
 

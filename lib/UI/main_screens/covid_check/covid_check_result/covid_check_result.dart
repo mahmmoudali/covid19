@@ -24,10 +24,10 @@ class _CovidCheckResultScreenState extends State<CovidCheckResultScreen> {
     super.initState();
   }
 
-  double progress = 0.0;
+  dynamic progress = 0.0;
   @override
   Widget build(BuildContext _) {
-    progress = ModalRoute.of(context).settings.arguments;
+    progress = ModalRoute.of(context)!.settings.arguments;
     return ChangeNotifierProvider(
         create: (_) => CovidCheckProvider(),
         builder: (context, child) {
@@ -156,9 +156,9 @@ class _CovidCheckResultScreenState extends State<CovidCheckResultScreen> {
 class InstructionItem extends StatelessWidget {
   const InstructionItem({
     this.text,
-    Key key,
+    Key? key,
   }) : super(key: key);
-  final String text;
+  final String? text;
 
   @override
   Widget build(BuildContext context) {
@@ -170,7 +170,7 @@ class InstructionItem extends StatelessWidget {
         boxShadow: [
           BoxShadow(
               // color: Colors.amber,
-              color: Colors.grey[200],
+              color: Colors.grey[200]!,
               spreadRadius: 1,
               blurRadius: 2,
               offset: Offset(0, 5))
@@ -189,7 +189,7 @@ class InstructionItem extends StatelessWidget {
               left: 5.w,
               child: Container(
                 width: 80.w,
-                child: Text(text,
+                child: Text(text!,
                     maxLines: 12,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(fontFamily: "Plex", fontSize: 16.sp)),

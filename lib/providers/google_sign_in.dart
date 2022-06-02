@@ -4,8 +4,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 class GoogleSignInProvider extends ChangeNotifier {
   final googleSignIn = GoogleSignIn();
-  bool _isSigningIn;
-  bool get isSigningIn => this._isSigningIn;
+  bool? _isSigningIn;
+  bool get isSigningIn => this._isSigningIn!;
 
   set isSigningIn(bool value) {
     _isSigningIn = value;

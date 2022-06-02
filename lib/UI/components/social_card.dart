@@ -4,13 +4,13 @@ import 'package:sizer/sizer.dart';
 
 class SocialCard extends StatelessWidget {
   const SocialCard({
-    Key key,
+    Key? key,
     this.icon,
     this.press,
   }) : super(key: key);
 
-  final String icon;
-  final Function press;
+  final String? icon;
+  final VoidCallback? press;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class SocialCard extends StatelessWidget {
         width: 5.h,
         decoration:
             BoxDecoration(color: Colors.grey[200], shape: BoxShape.circle),
-        child: SvgPicture.asset(icon),
+        child: SvgPicture.asset(icon!),
       ),
     );
   }
